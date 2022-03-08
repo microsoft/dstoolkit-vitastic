@@ -1,7 +1,19 @@
 import './App.css';
 import React from 'react';
-import { Grid, Segment, Menu, PaperclipIcon, FormatIcon, EyeIcon, StarIcon, Alert,} from '@fluentui/react-northstar'
-
+import { Navigate } from 'react-router-dom';
+import {
+    Grid,
+    Segment,
+    Menu,
+    PaperclipIcon,
+    FormatIcon,
+    EyeIcon,
+    StarIcon,
+    Alert,
+    Image,
+} from '@fluentui/react-northstar'
+import Upload from "./routes/upload";
+import Configs from "./routes/configs";
 
 const menuItems = [
     {
@@ -10,6 +22,7 @@ const menuItems = [
         ),
         key: 'start',
         content: 'Start',
+        href: '/'
     },
     {
         icon: (
@@ -17,6 +30,7 @@ const menuItems = [
         ),
         key: 'value',
         content: 'Value Configuration',
+        href: 'configs'
     },
     {
         icon: (
@@ -24,6 +38,7 @@ const menuItems = [
         ),
         key: 'upload',
         content: 'Upload Documents',
+        href: 'upload'
     },
     {
         icon: (
@@ -31,28 +46,14 @@ const menuItems = [
         ),
         key: 'result',
         content: 'Detection Result',
+        href: ''
     }
 ]
 
 class App extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = {
-            alert: false,
-        };
-
-        this.showAlert = () => {
-            this.setState({
-                alert: true,
-            })
-            setTimeout(
-                () =>
-                    this.setState({
-                        alert: false,
-                    }),
-                2000,
-            )
-        }
     }
 
     startPage() {
@@ -62,8 +63,9 @@ class App extends React.Component {
                     {/*<Image avatar src="https://upload.wikimedia.org/wikipedia/commons/3/38/MSFT_logo_png_grey.png"/>*/}
                 </Segment>
                 <Segment color="green" inverted styles={{ gridColumn: 'span 1', }}>
-                    <Menu items={menuItems} vertical pointing onItemClick={this.showAlert} />
-                    {this.state.alert && <Alert warning content="Click!" />}
+
+                    <Menu items={menuItems} vertical pointing />
+                    
                 </Segment>
                 <Segment styles={{ gridColumn: 'span 11', }}>
 
