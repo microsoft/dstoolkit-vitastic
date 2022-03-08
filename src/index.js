@@ -8,12 +8,12 @@ import { Provider, teamsTheme, teamsV2Theme, teamsDarkTheme, teamsDarkV2Theme} f
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 ReactDOM.render(
-    <Provider theme={teamsDarkTheme}>
+    <Provider theme={teamsV2Theme}>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="configs" element={<Configs />} />
-                <Route path="upload" element={<Upload />} />
+                {/*<Route path="configs" element={<Configs />} />*/}
+                {/*<Route path="upload" element={<Upload />} />*/}
             </Routes>
         </BrowserRouter>
     </Provider>,
