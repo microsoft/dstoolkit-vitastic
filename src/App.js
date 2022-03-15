@@ -8,11 +8,40 @@ import {
     FormatIcon,
     EyeIcon,
     StarIcon,
+    AcceptIcon,
+    BanIcon,
     MoreIcon,
     FilesImageIcon,
     Attachment,
+    Status,
+    Alert,
+    Image,
+    Layout,
     Form, FormDropdown, FormRadioGroup, Flex, FormSlider, Label, FormCheckbox, FormButton, FormLabel, FormInput
 } from '@fluentui/react-northstar'
+
+const images = [
+    <Image
+        key="allan"
+        fluid
+        src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/AllanMunger.jpg"
+    />,
+    <Image
+        key="amanda"
+        fluid
+        src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/AmandaBrady.jpg"
+    />,
+    <Image
+        key="cameron"
+        fluid
+        src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/CameronEvans.jpg"
+    />,
+    <Image
+        key="carlos"
+        fluid
+        src="https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/CarlosSlattery.jpg"
+    />
+]
 
 class App extends React.Component {
 
@@ -20,10 +49,19 @@ class App extends React.Component {
         super(props);
 
         this.state = {
+            // Default detection confidence threshold
             confidence: 0.3,
+            // Default menu item
             currentPage: 'start',
+            // Default menu item index
             activeIndex: 0,
-            fileLoading: false
+            // Default file processing indicator
+            fileProcessing: false,
+            fileUploadProgress: 33,
+            fileValidFormat: false,
+            fileValidSize: false,
+            fileFormatAlert: false,
+            fileSizeAlert: false,
         };
     }
 
@@ -48,19 +86,6 @@ class App extends React.Component {
             value: 'semantic segmentation',
 
         }
-    ]
-
-    fileChecker = [
-        {
-            key: 'format',
-            label: 'Valid file format: JPG, JPEG, PNG',
-            value: 'format',
-        },
-        {
-            key: 'size',
-            label: 'Valid file size: max. 4 MG',
-            value: 'size',
-        },
     ]
 
     menuItems = [
@@ -129,37 +154,92 @@ class App extends React.Component {
     }
 
     loadUpload() {
-        // let isLoading = false;
-
         return (
             <Form>
-                <FormInput type="file" />
-                <FormRadioGroup vertical defaultCheckedValue={'format'} items={ this.fileChecker } />
-                <FormButton primary loading={ this.state.fileLoading }
-                            content={ this.state.fileLoading ? 'Processing' : 'Submit' }
-                            onClick={() => { this.setState({ fileLoading: true })}}
-                />
-            </Form>
+                <Alert success content="Valid file format (JPG, JPEG, PNG) and valid file size (max. 4MG)"
+                       visible={this.state.fileValidFormat && this.state.fileValidSize} />
 
-            // <Attachment
-            //     actionable
-            //     icon={<FilesImageIcon />}
-            //     header="image.jpg"
-            //     // description="800 Kb"
-            //     action={{
-            //         icon: <MoreIcon />,
-            //         title: 'More Action',
-            //     }}
-            // progress={33}
-            // // onClick={this.handleClick('Attachment')}
-            // />
+                <FormInput type="file"
+                           onChange={ (e, v) => {
+                               this.setState({
+                                   uploadFileName: e.target.files[0].name,
+                                   uploadFile: URL.createObjectURL(e.target.files[0])
+                               });
+                               if (e.target.files[0].size <= 4194304) {
+                                   { this.setState({
+                                       fileValidSize: true
+                                   })}
+                               } else {
+                                   { this.setState({
+                                       fileSizeAlert: true
+                                   })}
+                               }
+                               if (e.target.files[0].type === "image/jpeg" || e.target.files[0].type === "image/png") {
+                                   { this.setState({
+                                       fileValidFormat: true
+                                   })}
+                               } else {
+                                   { this.setState({
+                                       fileFormatAlert: true
+                                   })}
+                               }
+                           }}
+                />
+                <Layout
+                    styles={{ maxWidth: '190px', }}
+                    renderMainArea={() => (
+                        <Image
+                            fluid
+                            src={this.state.uploadFile}
+                        />
+                    )}
+                />
+                
+                {/*TODO: Check https://benhowell.github.io/react-grid-gallery/*/}
+                <Grid content={images} />
+
+                <Alert danger dismissible content="Invalid file format: Must be in JPG, JPEG or PNG" visible={this.state.fileFormatAlert} />
+                <Alert danger dismissible content="Invalid file size: Max. 4 MG" visible={this.state.fileSizeAlert} />
+
+                <FormButton content='Submit' primary onClick={
+                    () => { this.setState({
+                        currentPage: "result",
+                        activeIndex: "3",
+                        fileProcessing: true,
+                    })}
+                }/>
+            </Form>
 
         )
     }
 
     loadResult() {
         return (
-            <h1>Hello, Result!</h1>
+            <Form>
+                {/*<Attachment*/}
+                {/*    actionable*/}
+                {/*    icon={<FilesImageIcon />}*/}
+                {/*    header={ this.state.uploadFileName }*/}
+                {/*    // description="800 Kb"*/}
+                {/*    // action={{*/}
+                {/*    //     icon: <MoreIcon />,*/}
+                {/*    //     title: 'More Action',*/}
+                {/*    // }}*/}
+                {/*    progress={ this.state.fileUploadProgress }*/}
+                {/*    onClick={*/}
+                {/*        () => { this.setState({*/}
+                {/*            fileUploadProgress: 66*/}
+                {/*        })}}*/}
+                {/*/>*/}
+
+                <FormButton primary loading={ this.state.fileProcessing }
+                            content={ this.state.fileProcessing ? "Processing" : "Download" }
+                            // Disable the button while file not under processing
+                            disabled={ !this.state.fileProcessing }
+                />
+
+            </Form>
+
         )
     }
 
@@ -191,7 +271,7 @@ class App extends React.Component {
                     {page}
                 </Segment>
 
-                <Segment color="brand" content="© Microsoft, Inc. 2022" inverted styles={{ gridColumn: 'span 12', }} />
+                <Segment color="brand" content="(c) copyright 2020, Microsoft" inverted styles={{ gridColumn: 'span 12', }} />
             </Grid>
         )
     }
@@ -201,5 +281,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
-
+export default App
