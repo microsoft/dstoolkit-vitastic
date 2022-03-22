@@ -8,7 +8,8 @@ import {
     FormRadioGroup,
     Image,
     Layout,
-    Text
+    Text,
+    Grid, gridBehavior
 } from "@fluentui/react-northstar";
 import _ from "lodash";
 import {cfd, deepcrack, forest, heavycrack, rissbilder, volker, volkerback, volkerds} from "../media";
@@ -134,8 +135,10 @@ class UploadView extends React.Component {
             value: 'heavycrack',
         }
     ]
-
+    
     render() {
+        const onChangeView = this.props.onChangeView;
+
         return (
             <Form>
                 <Alert success content="Valid file format (JPG, JPEG, PNG) and valid file size (max. 4MG)"
@@ -185,21 +188,10 @@ class UploadView extends React.Component {
                     )}
                 />}
 
-                {/*<Text size="medium">*/}
-                {/*    Select or upload an image*/}
-                {/*</Text>*/}
-                {/*<Grid accessibility={gridBehavior} columns="4" content={renderImageButtons()} />*/}
-
                 <Alert danger dismissible content="Invalid file format: Must be in JPG, JPEG or PNG" visible={this.state.fileFormatAlert} />
                 <Alert danger dismissible content="Invalid file size: Max. 4 MG" visible={this.state.fileSizeAlert} />
 
-                <FormButton content='Submit' primary onClick={
-                    () => { this.setState({
-                        currentPage: "result",
-                        activeIndex: "3",
-                        fileProcessing: true,
-                    })}
-                }/>
+                <FormButton content='Submit' primary onClick={onChangeView} />
             </Form>
 
         )

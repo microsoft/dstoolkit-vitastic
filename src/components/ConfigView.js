@@ -45,6 +45,8 @@ class ConfigView extends React.Component {
     ]
 
     render() {
+        const onChangeView = this.props.onChangeView;
+
         return (
             <Form>
                 <FormDropdown label="Visualization Scope" items={['classification', 'object detection', 'segmentation']} clearable checkable />
@@ -58,9 +60,7 @@ class ConfigView extends React.Component {
                 </Flex>
                 <FormCheckbox label="Enable input image batch processing" toggle />
                 <FormCheckbox label="I would like to generate a detection report" toggle />
-                <FormButton content="Continue" primary onClick={
-                    () => { this.setState({ currentPage: 'upload', activeIndex: '2'})}
-                }/>
+                <FormButton content="Continue" primary onClick={onChangeView} />
             </Form>
         )
     }

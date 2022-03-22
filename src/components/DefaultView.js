@@ -16,6 +16,8 @@ class DefaultView extends React.Component {
     }
 
     render() {
+        const onChangeView = this.props.onChangeView;
+
         return (
             <h1>Let's Start!</h1>
         )

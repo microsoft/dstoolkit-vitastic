@@ -9,9 +9,7 @@ import ConfigView from './components/ConfigView';
 import DefaultView from './components/DefaultView';
 import UploadView from './components/UploadView';
 import ResultView from './components/ResultView';
-import {
-    mslogo
-} from './media'
+
 import {
     Grid,
     Segment,
@@ -22,6 +20,7 @@ import {
     StarIcon,
 } from '@fluentui/react-northstar'
 
+// TODO: button click in components should render proper menu items
 class App extends React.Component {
 
     constructor(props) {
@@ -31,7 +30,7 @@ class App extends React.Component {
             // Default menu item indicator
             currentPage: 'start',
             // Default menu item index
-            activeIndex: 0
+            activeIndex: 0,
         };
     }
 
@@ -74,20 +73,35 @@ class App extends React.Component {
         }
     ]
 
-    render() {
-        let mainPage;
-        if (this.state.currentPage === 'start') {
-            mainPage = <DefaultView />
-        } else if (this.state.currentPage === 'config') {
-            mainPage = <ConfigView />
-        } else if (this.state.currentPage === 'upload') {
-            mainPage = <UploadView />
-        } else {
-            mainPage = <ResultView />
-        }
+    // TODO: complete onChangeView handle functions
+    handleConfigChange = () => {
+        this.setState({ currentPage: 'upload', activeIndex: 2 })
+    }
 
+    handleUploadChange = () => {
+        this.setState({ currentPage: 'result', activeIndex: 3 })
+    }
+
+    handleResultChange = () => {
+        this.setState({ currentPage: 'start', activeIndex: 0 })
+    }
+
+    renderView() {
+        switch (this.state.currentPage) {
+            case 'config':
+                return <ConfigView onChangeView={this.handleConfigChange} />
+            case 'upload':
+                return <UploadView onChangeView={this.handleUploadChange} />
+            case 'result':
+                return <ResultView onChangeView={this.handleResultChange} />
+            default:
+                return <DefaultView />
+        }
+    }
+
+    render() {
         return (
-            <Grid columns="repeat(12, 1fr)" rows="50px 100% 50px" styles={{minHeight:'100%' }}>
+            <Grid columns="repeat(12, 1fr)" rows="50px 100% 50px" styles={{ minHeight:'100%' }}>
                 <Segment color="brand" content="title" inverted styles={{ gridColumn: 'span 12' }} />
 
                 <Segment color="green" inverted styles={{ gridColumn: 'span 1', }}>
@@ -97,7 +111,7 @@ class App extends React.Component {
                 </Segment>
 
                 <Segment styles={{ gridColumn: 'span 11', }}>
-                    {mainPage}
+                    { this.renderView() }
                 </Segment>
 
                 <Segment color="brand" content="© Microsoft 2022" inverted styles={{ gridColumn: 'span 12', }} />
