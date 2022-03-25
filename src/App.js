@@ -20,7 +20,6 @@ import {
     StarIcon,
 } from '@fluentui/react-northstar'
 
-// TODO: button click in components should render proper menu items
 class App extends React.Component {
 
     constructor(props) {
