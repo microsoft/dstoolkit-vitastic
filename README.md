@@ -2,13 +2,15 @@
 
 ## Get Start 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-To start, in the project directory, you can run:
+To start, in the project directory, install react dependencies by running:
+```
+yarn install
+```
 
+After installing, run the app in development mode:
 ```
 yarn start
 ```
-
-Runs the app in the development mode.\
 You can open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
