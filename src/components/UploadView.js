@@ -23,10 +23,10 @@ const imageNames = [
 ]
 
 const imageButtonStyles = {
-    minWidth: '100px',
-    maxWidth: '200px',
-    height: '200px',
-    padding: '10',
+    minWidth: '90px',
+    maxWidth: '180px',
+    height: '180px',
+    padding: '2',
     margin: '0',
 }
 
@@ -42,7 +42,8 @@ class UploadView extends React.Component {
             fileValidSize: false,
             fileFormatAlert: false,
             fileSizeAlert: false,
-            isClicked: Array(imageNames.length).fill(false)
+            isClicked: Array(imageNames.length).fill(false),
+            isSampleClicked: false,
         };
     }
 
@@ -50,10 +51,12 @@ class UploadView extends React.Component {
         return _.map(imageNames, (imageName, index) => {
             if (index === 0) {
                 return (
-                    <Button key={imageName} styles={imageButtonStyles} title={imageName}>
-                        <Input fluid type="file" label="Upload an image" onChange={ (e, v) => {
+                    <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.uploadFile}>
+
+                        {!this.state.uploadFile && <Input
+                            fluid type="file" label="Upload an image" onChange={ (e, v) => {
                             this.setState({
-                                uploadFileName: e.target.files[0].name,
+                                // uploadFileName: e.target.files[0].name,
                                 uploadFile: URL.createObjectURL(e.target.files[0])
                             });
                             if (e.target.files[0].size <= 4194304) {
@@ -74,7 +77,11 @@ class UploadView extends React.Component {
                                     fileFormatAlert: true
                                 })}
                             }}}
-                        />
+                        />}
+
+                        {this.state.uploadFile && <Image
+                            fluid src={this.state.uploadFile} />}
+
                     </Button>
                 )
             }
@@ -83,7 +90,9 @@ class UploadView extends React.Component {
                 <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.isClicked[index]}
                         onClick={(state) => {
                             this.setState({
-                                isClicked: Array(imageNames.length).fill(false).map((name, i) => i === index)
+                                isClicked: Array(imageNames.length).fill(false).map((name, i) => i === index),
+                                sampleImageName: imageName,
+                                isSampleClicked: true
                             })
                         }}>
                     <Image fluid src={`./img/${imageName}.jpg`}/>
@@ -92,8 +101,26 @@ class UploadView extends React.Component {
         })
     }
 
+    getSuccessMessage() {
+        if (this.state.fileValidFormat && this.state.fileValidSize) {
+            return "Valid file format (JPG, JPEG, PNG) and valid file size (max. 4MG)"
+        } else {
+            return "Selected " + this.state.sampleImageName + " as sample image"
+        }
+    }
+
+    getAlertMessage() {
+        if (this.state.fileFormatAlert) {
+            return "Invalid file format: Must be in JPG, JPEG or PNG"
+        } else {
+            return "Invalid file size: Max. 4 MB"
+        }
+    }
+
     render() {
         const onChangeView = this.props.onChangeView;
+        const showSuccess = (this.state.fileValidFormat && this.state.fileValidSize) || this.state.isSampleClicked;
+        const showAlert = this.state.fileFormatAlert || this.state.fileSizeAlert
 
         return (
             <Form>
@@ -103,10 +130,8 @@ class UploadView extends React.Component {
                     styles={{ maxHeight: '10px', }}
                     renderMainArea={() => (
                         <>
-                            <Alert success content="Valid file format (JPG, JPEG, PNG) and valid file size (max. 4MG)"
-                                   visible={this.state.fileValidFormat && this.state.fileValidSize} />
-                            <Alert danger dismissible content="Invalid file format: Must be in JPG, JPEG or PNG" visible={this.state.fileFormatAlert} />
-                            <Alert danger dismissible content="Invalid file size: Max. 4 MG" visible={this.state.fileSizeAlert} />
+                            <Alert success visible={showSuccess} content={this.getSuccessMessage()} />
+                            <Alert danger visible={showAlert} content={this.getAlertMessage()} /> 
                         </>
                     )}
                 />

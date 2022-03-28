@@ -59,7 +59,7 @@ class ConfigView extends React.Component {
                     <Label color='brand' styles={{margin:'17px'}} content={this.state.confidence}/>
                 </Flex>
                 <FormCheckbox label="Enable input image batch processing" toggle />
-                <FormCheckbox label="I would like to generate a detection report" toggle />
+                <FormCheckbox label="I would like to generate a detection report" toggle defaultChecked />
                 <FormButton content="Continue" primary onClick={onChangeView} />
             </Form>
         )
