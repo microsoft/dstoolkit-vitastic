@@ -45,7 +45,7 @@ class ConfigView extends React.Component {
     ]
 
     render() {
-        const onChangeView = this.props.onChangeView;
+        const onViewChange = this.props.onViewChange;
 
         return (
             <Form>
@@ -60,7 +60,7 @@ class ConfigView extends React.Component {
                 </Flex>
                 <FormCheckbox label="Enable input image batch processing" toggle />
                 <FormCheckbox label="I would like to generate a detection report" toggle defaultChecked />
-                <FormButton content="Continue" primary onClick={onChangeView} />
+                <FormButton content="Continue" primary onClick={onViewChange} />
             </Form>
         )
     }

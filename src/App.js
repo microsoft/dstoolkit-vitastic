@@ -22,6 +22,7 @@ import {
 
 class App extends React.Component {
 
+
     constructor(props) {
         super(props);
 
@@ -30,6 +31,10 @@ class App extends React.Component {
             currentPage: 'start',
             // Default menu item index
             activeIndex: 0,
+            // Default name of uploaded path
+            imageName: null,
+            // Default URL of uploaded path
+            imageURL: '',
         };
     }
 
@@ -72,27 +77,26 @@ class App extends React.Component {
         }
     ]
 
-    // TODO: complete onChangeView handle functions
-    handleConfigChange = () => {
-        this.setState({ currentPage: 'upload', activeIndex: 2 })
+    handleNavigation = (currentPage) => {
+        const newIndex = (this.state.activeIndex + 1) %  4;
+        this.setState({ currentPage: currentPage, activeIndex: newIndex  })
     }
 
-    handleUploadChange = () => {
-        this.setState({ currentPage: 'result', activeIndex: 3 })
-    }
-
-    handleResultChange = () => {
-        this.setState({ currentPage: 'start', activeIndex: 0 })
+    handleImageUpload = (name, url) => {
+        this.setState({imageName: name, imageURL: url })
     }
 
     renderView() {
         switch (this.state.currentPage) {
             case 'config':
-                return <ConfigView onChangeView={this.handleConfigChange} />
+                return <ConfigView onViewChange={() => this.handleNavigation('upload')} />
             case 'upload':
-                return <UploadView onChangeView={this.handleUploadChange} />
+                return <UploadView onViewChange={() => this.handleNavigation('result')}
+                                   onImageUpload={this.handleImageUpload} />
             case 'result':
-                return <ResultView onChangeView={this.handleResultChange} />
+                return <ResultView onViewChange={() => this.handleNavigation('start')}
+                                   imageName={this.state.imageName}
+                                   imageURL={this.state.imageURL} />
             default:
                 return <DefaultView />
         }

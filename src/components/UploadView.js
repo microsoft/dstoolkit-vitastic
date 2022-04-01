@@ -55,10 +55,14 @@ class UploadView extends React.Component {
 
                         {!this.state.uploadFile && <Input
                             fluid type="file" label="Upload an image" onChange={ (e, v) => {
-                            this.setState({
-                                // uploadFileName: e.target.files[0].name,
+                                // Set image name and URL as property
+                                this.props.onImageUpload(e.target.files[0].name, URL.createObjectURL(e.target.files[0]));
+                                // Set image URL as state for visualizing
+                                this.setState({
                                 uploadFile: URL.createObjectURL(e.target.files[0])
                             });
+
+                            // Validation of image size and format
                             if (e.target.files[0].size <= 4194304) {
                                 { this.setState({
                                     fileValidSize: true
@@ -85,7 +89,7 @@ class UploadView extends React.Component {
                     </Button>
                 )
             }
-            // TODO: handle single button clicks
+
             return (
                 <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.isClicked[index]}
                         onClick={(state) => {
@@ -118,7 +122,7 @@ class UploadView extends React.Component {
     }
 
     render() {
-        const onChangeView = this.props.onChangeView;
+        const onViewChange = this.props.onViewChange;
         const showSuccess = (this.state.fileValidFormat && this.state.fileValidSize) || this.state.isSampleClicked;
         const showAlert = this.state.fileFormatAlert || this.state.fileSizeAlert
 
@@ -136,7 +140,7 @@ class UploadView extends React.Component {
                     )}
                 />
 
-                <FormButton content='Submit' primary onClick={onChangeView} />
+                <FormButton content='Submit' primary onClick={onViewChange} />
             </Form>
         )
     }
