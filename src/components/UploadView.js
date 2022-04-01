@@ -11,15 +11,15 @@ import {
 } from "@fluentui/react-northstar";
 import _, {clone} from "lodash";
 
-const imageNames = [
-    'cfd',
-    'deepcrack',
-    'forest',
-    'heavycrack',
-    'rissbilder',
-    'volker',
-    'volkerds',
-    'volkerback'
+const sampleImages = [
+    'cfd.jpg',
+    'deepcrack.jpg',
+    'forest.jpg',
+    'heavycrack.jpg',
+    'rissbilder.jpg',
+    'volker.jpg',
+    'volkerds.jpg',
+    'volkerback.jpg'
 ]
 
 const imageButtonStyles = {
@@ -42,26 +42,26 @@ class UploadView extends React.Component {
             fileValidSize: false,
             fileFormatAlert: false,
             fileSizeAlert: false,
-            isClicked: Array(imageNames.length).fill(false),
+            isClicked: Array(sampleImages.length).fill(false),
             isSampleClicked: false,
         };
     }
 
     renderImageButtons = () => {
-        return _.map(imageNames, (imageName, index) => {
+        return _.map(sampleImages, (imageName, index) => {
+            // First button as placeholder for user input
             if (index === 0) {
                 return (
                     <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.uploadFile}>
-
+                        {/* Present input button encase no file uploaded yet */}
                         {!this.state.uploadFile && <Input
                             fluid type="file" label="Upload an image" onChange={ (e, v) => {
                                 // Set image name and URL as property
                                 this.props.onImageUpload(e.target.files[0].name, URL.createObjectURL(e.target.files[0]));
                                 // Set image URL as state for visualizing
                                 this.setState({
-                                uploadFile: URL.createObjectURL(e.target.files[0])
+                                    uploadFile: URL.createObjectURL(e.target.files[0])
                             });
-
                             // Validation of image size and format
                             if (e.target.files[0].size <= 4194304) {
                                 { this.setState({
@@ -82,24 +82,26 @@ class UploadView extends React.Component {
                                 })}
                             }}}
                         />}
-
+                        {/* Render the uploaded file directly */}
                         {this.state.uploadFile && <Image
                             fluid src={this.state.uploadFile} />}
 
                     </Button>
                 )
             }
-
+            // Other buttons for representing sample images
             return (
                 <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.isClicked[index]}
                         onClick={(state) => {
+                            // Set image name and URL as property
+                            this.props.onImageUpload(imageName, `./img/${imageName}`);
                             this.setState({
-                                isClicked: Array(imageNames.length).fill(false).map((name, i) => i === index),
-                                sampleImageName: imageName,
-                                isSampleClicked: true
+                                isClicked: Array(sampleImages.length).fill(false).map((name, i) => i === index),
+                                isSampleClicked: true,
+                                sampleImageName: imageName
                             })
                         }}>
-                    <Image fluid src={`./img/${imageName}.jpg`}/>
+                    <Image fluid src={`./img/${imageName}`}/>
                 </Button>
             )
         })
