@@ -16,6 +16,7 @@ class ResultView extends React.Component {
 
         this.state = {
             resultReady: false,
+            processStatus: 'Initializing...'
         }
 
     }
@@ -36,9 +37,10 @@ class ResultView extends React.Component {
             <Form>
                 <Attachment
                     header={imageName}
+                    description={this.state.processStatus}
                     actionable
                     icon={<VisioIcon />}
-                    progress={33}
+                    progress={5}
                 />
                 <Flex>
                     <Button tinted content="Download" disabled={!this.state.resultReady}
