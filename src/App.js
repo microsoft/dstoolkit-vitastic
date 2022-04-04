@@ -28,7 +28,8 @@ class App extends React.Component {
 
         this.state = {
             // Default menu item indicator
-            currentPage: 'start',
+            // currentPage: 'start',
+            currentPage: 'config',
             // Default menu item index
             activeIndex: 0,
             // Default name of uploaded path
@@ -39,15 +40,15 @@ class App extends React.Component {
     }
 
     menuItems = [
-        {
-            icon: (
-                <StarIcon {...{outline: true,}}/>
-            ),
-            key: 'start',
-            content: 'Start',
-            pills: true,
-            onClick: () => { this.setState({ currentPage: 'start', activeIndex: 0}) }
-        },
+        // {
+        //     icon: (
+        //         <StarIcon {...{outline: true,}}/>
+        //     ),
+        //     key: 'start',
+        //     content: 'Start',
+        //     pills: true,
+        //     onClick: () => { this.setState({ currentPage: 'start', activeIndex: 0}) }
+        // },
         {
             icon: (
                 <FormatIcon {...{outline: true,}}/>
@@ -78,7 +79,8 @@ class App extends React.Component {
     ]
 
     handleNavigation = (currentPage) => {
-        const newIndex = (this.state.activeIndex + 1) %  4;
+        // const newIndex = (this.state.activeIndex + 1) %  4;
+        const newIndex = (this.state.activeIndex + 1) %  3;
         this.setState({ currentPage: currentPage, activeIndex: newIndex  })
     }
 
@@ -88,8 +90,8 @@ class App extends React.Component {
 
     renderView() {
         switch (this.state.currentPage) {
-            case 'config':
-                return <ConfigView onViewChange={() => this.handleNavigation('upload')} />
+            // case 'config':
+            //     return <ConfigView onViewChange={() => this.handleNavigation('upload')} />
             case 'upload':
                 return <UploadView onViewChange={() => this.handleNavigation('result')}
                                    onImageUpload={this.handleImageUpload} />
@@ -98,7 +100,8 @@ class App extends React.Component {
                                    imageName={this.state.imageName}
                                    imageURL={this.state.imageURL} />
             default:
-                return <DefaultView />
+                // return <DefaultView />
+                return <ConfigView onViewChange={() => this.handleNavigation('upload')} />
         }
     }
 
