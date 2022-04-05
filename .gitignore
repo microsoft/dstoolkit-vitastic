@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# React packages
+node_modules/
+
+# Temporal file placeholder
+tmp/
+
 # C extensions
 *.so
 

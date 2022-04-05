@@ -57,7 +57,8 @@ class UploadView extends React.Component {
                         {!this.state.uploadFile && <Input
                             fluid type="file" label="Upload an image" onChange={ (e, v) => {
                                 // Set image name and URL as property
-                                this.props.onImageUpload(e.target.files[0].name, URL.createObjectURL(e.target.files[0]));
+                                this.props.onImageUpload(e.target.files[0].name, e.target.files[0]);
+                                // this.props.onImageUpload(e.target.files[0].name, URL.createObjectURL(e.target.files[0]));
                                 // Set image URL as state for visualizing
                                 this.setState({
                                     uploadFile: URL.createObjectURL(e.target.files[0])

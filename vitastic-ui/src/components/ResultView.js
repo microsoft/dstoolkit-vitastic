@@ -1,8 +1,6 @@
 import React from "react";
 import {
     Form,
-    FormButton,
-    FormCheckbox,
     Button,
     Attachment,
     Flex,
@@ -28,10 +26,32 @@ class ResultView extends React.Component {
         link.click();
     }
 
+    // Insert an image
+    handleImageUpload(body){
+        let data = new FormData()
+        data.append('file', this.props.imageURL)
+        data.append('confidence', '0.1')
+
+        return fetch(`http://127.0.0.1:5000/upload`,{
+            'method': "POST",
+            mode: "no-cors",
+            headers : {
+                'Content-Type':'application/json'
+            },
+            body: data
+        })
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.log(error))
+    }
+
+
     render() {
         const onViewChange = this.props.onViewChange;
         const imageName = this.props.imageName;
         const imageURL = this.props.imageURL;
+
+        this.handleImageUpload(imageURL);
 
         return (
             <Form>

@@ -4,7 +4,7 @@
 // Metadata including time, location of crack, etc.
 
 import './App.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ConfigView from './components/ConfigView';
 import DefaultView from './components/DefaultView';
 import UploadView from './components/UploadView';
@@ -20,8 +20,8 @@ import {
     StarIcon,
 } from '@fluentui/react-northstar'
 
-class App extends React.Component {
 
+class App extends React.Component {
 
     constructor(props) {
         super(props);
