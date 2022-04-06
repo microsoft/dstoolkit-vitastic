@@ -36,6 +36,8 @@ class App extends React.Component {
             imageName: null,
             // Default uploaded image file
             imageFile: null,
+            // Default confidence value
+            confidence: 0.3
         };
     }
 
@@ -88,6 +90,10 @@ class App extends React.Component {
         this.setState({imageName: name, imageFile: file })
     }
 
+    handleConfidenceChange = (conf) => {
+        this.setState({confidence: conf })
+    }
+
     renderView() {
         switch (this.state.currentPage) {
             // case 'config':
@@ -98,10 +104,12 @@ class App extends React.Component {
             case 'result':
                 return <ResultView onViewChange={() => this.handleNavigation('start')}
                                    imageName={this.state.imageName}
-                                   imageFile={this.state.imageFile} />
+                                   imageFile={this.state.imageFile}
+                                   confidence={this.state.confidence} />
             default:
                 // return <DefaultView />
-                return <ConfigView onViewChange={() => this.handleNavigation('upload')} />
+                return <ConfigView onViewChange={() => this.handleNavigation('upload')}
+                                   onConfidenceChange={this.handleConfidenceChange} />
         }
     }
 

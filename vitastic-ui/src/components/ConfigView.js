@@ -9,6 +9,7 @@ import {
     FormSlider,
     Label
 } from "@fluentui/react-northstar";
+import {value} from "lodash/seq";
 
 class ConfigView extends React.Component {
 
@@ -46,6 +47,7 @@ class ConfigView extends React.Component {
 
     render() {
         const onViewChange = this.props.onViewChange;
+        const onConfidenceChange = this.props.onConfidenceChange;
 
         return (
             <Form>
@@ -53,9 +55,11 @@ class ConfigView extends React.Component {
                 <FormRadioGroup label="Visualization Scope" vertical items={this.detectionScopes} />
                 <Flex>
                     <FormSlider value={this.state.confidence} label='Confidence Threshold' min='0' max='1' step='0.1'
-                                onChange={(e,value) => {
-                                    this.setState({confidence:value.value})}
-                                }/>
+                                onChange={(e, value) => {
+                                    this.setState({confidence:value.value});
+                                    onConfidenceChange(value.value);
+                                }}
+                    />
                     <Label color='brand' styles={{margin:'17px'}} content={this.state.confidence}/>
                 </Flex>
                 <FormCheckbox label="Enable input image batch processing" toggle />

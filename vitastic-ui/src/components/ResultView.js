@@ -31,7 +31,7 @@ class ResultView extends React.Component {
     handleImageUpload() {
         let data = new FormData();
         data.append('file', this.props.imageFile);
-        data.append('confidence', '0.1');
+        data.append('confidence', this.props.confidence);
 
         let requestOptions = {
             method: 'POST',
