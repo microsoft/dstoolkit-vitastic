@@ -32,10 +32,10 @@ class App extends React.Component {
             currentPage: 'config',
             // Default menu item index
             activeIndex: 0,
-            // Default name of uploaded path
+            // Default name of uploaded image file
             imageName: null,
-            // Default URL of uploaded path
-            imageURL: '',
+            // Default uploaded image file
+            imageFile: null,
         };
     }
 
@@ -84,8 +84,8 @@ class App extends React.Component {
         this.setState({ currentPage: currentPage, activeIndex: newIndex  })
     }
 
-    handleImageUpload = (name, url) => {
-        this.setState({imageName: name, imageURL: url })
+    handleImageUpload = (name, file) => {
+        this.setState({imageName: name, imageFile: file })
     }
 
     renderView() {
@@ -98,7 +98,7 @@ class App extends React.Component {
             case 'result':
                 return <ResultView onViewChange={() => this.handleNavigation('start')}
                                    imageName={this.state.imageName}
-                                   imageURL={this.state.imageURL} />
+                                   imageFile={this.state.imageFile} />
             default:
                 // return <DefaultView />
                 return <ConfigView onViewChange={() => this.handleNavigation('upload')} />

@@ -4,7 +4,8 @@ import {
     Button,
     Attachment,
     Flex,
-    VisioIcon
+    VisioIcon,
+    Image,
 } from "@fluentui/react-northstar";
 
 class ResultView extends React.Component {
@@ -14,57 +15,63 @@ class ResultView extends React.Component {
 
         this.state = {
             resultReady: false,
-            processStatus: 'Initializing...'
+            jobStatus: 'Initializing...',
+            jobProgress: 5,
         }
 
     }
 
-    handleImageDownload = (imageURL, imageName) => {
+    handleImageDownload = (imageFile, imageName) => {
         let link = document.createElement('a');
         link.download = imageName;
-        link.href = imageURL;
+        link.href = URL.createObjectURL(imageFile);
         link.click();
     }
 
-    // Insert an image
-    handleImageUpload(body){
-        let data = new FormData()
-        data.append('file', this.props.imageURL)
-        data.append('confidence', '0.1')
+    handleImageUpload() {
+        let data = new FormData();
+        data.append('file', this.props.imageFile);
+        data.append('confidence', '0.1');
 
-        return fetch(`http://127.0.0.1:5000/upload`,{
-            'method': "POST",
-            mode: "no-cors",
-            headers : {
-                'Content-Type':'application/json'
-            },
-            body: data
-        })
-            .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.log(error))
+        let requestOptions = {
+            method: 'POST',
+            body: data,
+        };
+
+        fetch(`http://127.0.0.1:5000/upload`, requestOptions)
+            .then(response => response.blob()).then(img =>
+                    this.setState({imgResponse: URL.createObjectURL(img), jobProgress: 100, jobStatus: 'Finished'})
+            );
     }
-
 
     render() {
         const onViewChange = this.props.onViewChange;
         const imageName = this.props.imageName;
-        const imageURL = this.props.imageURL;
+        const imageFile = this.props.imageFile;
 
-        this.handleImageUpload(imageURL);
+        const imageResponseStyles = {
+            minWidth: '160px',
+            maxWidth: '320px',
+            height: '320px',
+        }
+
+        this.handleImageUpload();
 
         return (
             <Form>
                 <Attachment
                     header={imageName}
-                    description={this.state.processStatus}
+                    description={this.state.jobStatus}
                     actionable
                     icon={<VisioIcon />}
-                    progress={5}
+                    progress={this.state.jobProgress}
                 />
+
+                <Image src={this.state.imgResponse} styles={imageResponseStyles} />
+
                 <Flex>
                     <Button tinted content="Download" disabled={!this.state.resultReady}
-                            onClick={() => {this.handleImageDownload(imageURL, imageName)}} />
+                            onClick={() => {this.handleImageDownload(imageFile, imageName)}} />
 
                     <Button primary={this.state.resultReady} loading={!this.state.resultReady}
                             content={this.state.resultReady ? "Finish" : "Processing"}

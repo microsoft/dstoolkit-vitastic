@@ -1,20 +1,21 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response, send_file
+from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 from detection import detect_damage, visualize_damage   # sys.path.insert(0, '..')
 
 
 app = Flask(__name__)
-# app.secret_key = "secret key"
+CORS(app)
 app.config['UPLOAD_FOLDER'] = './tmp/uploads/'
 app.config['DETECTED_FOLDER'] = './tmp/detected/'
-
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # TODO: dynamic configuration
 job = "segmentation"  # enum(classification, detection, segmentation)
 
 
-@app.route('/upload', methods=['POST'])
+@app.route("/upload", methods=['POST'])
 def upload_image():
     # Catch post attributes and files
     img = request.files['file']
@@ -74,7 +75,8 @@ def upload_image():
 
     if os.path.isfile(img_out):
         print('I am finished!')
-        return jsonify(success=True, img_response=img_out, report_response=report)
+        # return jsonify(success=True, img_response=img_out, report_response=report)
+        return send_file(img_out)
 
 
 if __name__ == "__main__":
