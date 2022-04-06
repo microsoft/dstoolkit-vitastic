@@ -48,11 +48,16 @@ class ConfigView extends React.Component {
     render() {
         const onViewChange = this.props.onViewChange;
         const onConfidenceChange = this.props.onConfidenceChange;
+        const onScopeChange = this.props.onScopeChange;
 
         return (
             <Form>
                 <FormDropdown label="Visualization Scope" items={['classification', 'object detection', 'segmentation']} clearable checkable />
-                <FormRadioGroup label="Visualization Scope" vertical items={this.detectionScopes} />
+                <FormRadioGroup label="Visualization Scope" vertical items={this.detectionScopes}
+                                onCheckedValueChange={(e, value) => {
+                                    onScopeChange(value.value);
+                                }}
+                />
                 <Flex>
                     <FormSlider value={this.state.confidence} label='Confidence Threshold' min='0' max='1' step='0.1'
                                 onChange={(e, value) => {

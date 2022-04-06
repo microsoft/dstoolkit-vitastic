@@ -11,15 +11,14 @@ app.config['UPLOAD_FOLDER'] = './tmp/uploads/'
 app.config['DETECTED_FOLDER'] = './tmp/detected/'
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# TODO: dynamic configuration
-job = "segmentation"  # enum(classification, detection, segmentation)
-
 
 @app.route("/upload", methods=['POST'])
 def upload_image():
     # Catch post attributes and files
     img = request.files['file']
     thr = request.form['confidence']
+    job = request.form['scope']
+    print(job)
 
     # Save user uploaded image to file
     imgname = secure_filename(img.filename)
@@ -30,7 +29,7 @@ def upload_image():
     # Detect and visualize damages on input image
     if os.path.isfile(img_in):
         # segmentation job
-        if job == "segmentation":
+        if job == "semantic segmentation":
             bbox, poly, report = detect_damage(img_path=img_in, threshold=thr, scope='full')
             visualize_damage(input_path=img_in,
                              output_path=os.path.join(app.config['DETECTED_FOLDER'], secure_filename(img.filename)),
@@ -49,13 +48,12 @@ def upload_image():
             report['seg_percentage'] = "{:.2%}".format(report['seg_percentage'])
 
         # detection job
-        elif job == "detection":
+        elif job == "object detection":
             bbox, report = detect_damage(img_path=img_in, threshold=thr, scope='detection_only')
             visualize_damage(input_path=img_in,
                              output_path=os.path.join(app.config['DETECTED_FOLDER'], secure_filename(img.filename)),
                              bboxs=bbox)
             # Attach damage evaluation in the final report
-            print(report)
             if report['nbox'] == 0:
                 report['eval'] = None
             elif report['bbox_percentage'] < 0.01:
@@ -68,7 +66,6 @@ def upload_image():
                 report['eval'] = 'severe'
             report['bbox_percentage'] = "{:.2%}".format(report['bbox_percentage'])
 
-        # TODO: improve
         # classification job
         else:
             print('ok')

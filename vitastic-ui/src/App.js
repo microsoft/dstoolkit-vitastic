@@ -37,7 +37,9 @@ class App extends React.Component {
             // Default uploaded image file
             imageFile: null,
             // Default confidence value
-            confidence: 0.3
+            confidence: 0.3,
+            // Default task scope setting
+            scope: 'segmentation'
         };
     }
 
@@ -94,6 +96,10 @@ class App extends React.Component {
         this.setState({confidence: conf })
     }
 
+    handleScopeChange = (scope) => {
+        this.setState({scope: scope })
+    }
+
     renderView() {
         switch (this.state.currentPage) {
             // case 'config':
@@ -105,11 +111,13 @@ class App extends React.Component {
                 return <ResultView onViewChange={() => this.handleNavigation('start')}
                                    imageName={this.state.imageName}
                                    imageFile={this.state.imageFile}
-                                   confidence={this.state.confidence} />
+                                   confidence={this.state.confidence}
+                                   scope={this.state.scope} />
             default:
                 // return <DefaultView />
                 return <ConfigView onViewChange={() => this.handleNavigation('upload')}
-                                   onConfidenceChange={this.handleConfidenceChange} />
+                                   onConfidenceChange={this.handleConfidenceChange}
+                                   onScopeChange={this.handleScopeChange} />
         }
     }
 
