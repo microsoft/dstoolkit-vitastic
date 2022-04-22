@@ -28,7 +28,7 @@ class ResultView extends React.Component {
         link.click();
     }
 
-    handleImageUpload() {
+    async handleImageUpload() {
         let data = new FormData();
         data.append('file', this.props.imageFile);
         data.append('confidence', this.props.confidence);
@@ -39,10 +39,30 @@ class ResultView extends React.Component {
             body: data,
         };
 
+        await new Promise(r => setTimeout(r, 500)); // 0.5s
+        this.setState({jobProgress: 30, jobStatus: 'Detecting'});
+
         fetch(`http://127.0.0.1:5000/upload`, requestOptions)
             .then(response => response.blob()).then(img =>
-                    this.setState({imgResponse: URL.createObjectURL(img), jobProgress: 100, jobStatus: 'Finished'})
-            );
+            this.setState({
+                imgResponse: URL.createObjectURL(img),
+                jobProgress: 80,
+                jobStatus: 'Visualizing',
+            })
+        ).then(async () =>
+            await new Promise(r => setTimeout(r, 1000)) // 1s
+        ).then(() =>
+            this.setState({
+                jobProgress: 100,
+                jobStatus: 'Finished',
+                resultReady: true
+            })
+        );
+
+    }
+
+    componentDidMount() {
+        this.handleImageUpload();
     }
 
     render() {
@@ -56,8 +76,6 @@ class ResultView extends React.Component {
             height: '320px',
         }
 
-        this.handleImageUpload();
-
         return (
             <Form>
                 <Attachment
@@ -68,7 +86,7 @@ class ResultView extends React.Component {
                     progress={this.state.jobProgress}
                 />
 
-                <Image src={this.state.imgResponse} styles={imageResponseStyles} />
+                <Image src={this.state.resultReady ? this.state.imgResponse : null} styles={imageResponseStyles} />
 
                 <Flex>
                     <Button tinted content="Download" disabled={!this.state.resultReady}
