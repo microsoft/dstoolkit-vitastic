@@ -7,6 +7,7 @@ import {
     FormDropdown,
     FormRadioGroup,
     FormSlider,
+    Image,
     Label
 } from "@fluentui/react-northstar";
 import {value} from "lodash/seq";
@@ -45,6 +46,29 @@ class ConfigView extends React.Component {
         }
     ]
 
+    visualizationColors = [
+        {
+            header: 'Magic Red',
+            image: `./img/C4314B.png`
+        },
+        {
+            header: 'Fluent Brand',
+            image: `./img/7f85f5.png`
+        },
+        {
+            header: 'Punk Green',
+            image: `./img/3ff23f.png`
+        },
+        {
+            header: 'Crazy Blue',
+            image: `./img/1aebff.png`
+        },
+        {
+            header: 'Meta Yellow',
+            image: `./img/ffff01.png`
+        }
+    ]
+
     render() {
         const onViewChange = this.props.onViewChange;
         const onConfidenceChange = this.props.onConfidenceChange;
@@ -52,12 +76,18 @@ class ConfigView extends React.Component {
 
         return (
             <Form>
-                <FormDropdown label="Visualization Scope" items={['classification', 'object detection', 'segmentation']} clearable checkable />
-                <FormRadioGroup label="Visualization Scope" vertical items={this.detectionScopes}
+                <FormDropdown label="Visualization Color"
+                              items={this.visualizationColors}
+                              clearable checkable
+                />
+
+                <FormRadioGroup label="Detection Scope" vertical items={this.detectionScopes}
+                                defaultCheckedValue={'object detection'}
                                 onCheckedValueChange={(e, value) => {
                                     onScopeChange(value.value);
                                 }}
                 />
+
                 <Flex>
                     <FormSlider value={this.state.confidence} label='Confidence Threshold' min='0' max='1' step='0.1'
                                 onChange={(e, value) => {
@@ -67,7 +97,6 @@ class ConfigView extends React.Component {
                     />
                     <Label color='brand' styles={{margin:'17px'}} content={this.state.confidence}/>
                 </Flex>
-                <FormCheckbox label="Enable input image batch processing" toggle />
                 <FormCheckbox label="I would like to generate a detection report" toggle defaultChecked />
                 <FormButton content="Continue" primary onClick={onViewChange} />
             </Form>

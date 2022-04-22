@@ -125,12 +125,10 @@ class App extends React.Component {
 
     render() {
         return (
-            <Grid columns="repeat(12, 1fr)" rows="50px calc(100vh - 100px) 50px" styles={{ height:'100vh' }}>
+            <Grid columns="repeat(12, 1fr)" rows="64px calc(100vh - 114px) 50px" styles={{ height:'100vh' }}>
                 <Segment color="brand" inverted styles={{ gridColumn: 'span 12' }}>
                     <Image avatar src={`./img/mslogo.png`}/>
-                    <b> Detect the Crack </b>
-                    {/*<Layout styles={{maxWidth: '25px',}}*/}
-                    {/*        renderMainArea={() => (<Image fluid src={`./img/mslogo.png`} />)}/>*/}
+                     <b> &nbsp;&nbsp;Detect the Crack </b>
                 </Segment>
 
                 <Segment color="green" inverted styles={{ gridColumn: 'span 1', }}>
