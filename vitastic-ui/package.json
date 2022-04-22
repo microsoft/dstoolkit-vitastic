@@ -2,7 +2,6 @@
   "name": "vitastic",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
   "dependencies": {
     "@fluentui/react-northstar": "^0.60.1",
     "@testing-library/jest-dom": "^5.16.2",

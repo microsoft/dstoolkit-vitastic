@@ -1,13 +1,38 @@
 # Vitastic
 
-## Get Start 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-To start, in the project directory, install react dependencies by running:
+## Get Start
+### Back-end
+The back-end of Vitastic is implemented using python's [Flask](https://flask.palletsprojects.com) framework. All 
+source code reside in the `Vitastic` folder. 
+
+It is highly recommended create a virtual environment using e.g. package manager `conda` before the further package installing:
 ```
+conda create -n Vitastic python=3.8
+```
+Now you can install all python package dependencies and get the backend running by:
+```
+cd Vitastic
+pip install -r requirements.txt
+flask run
+```
+You should be able to see the Flask app serving the `app.py` script under [http://localhost:5000](http://localhost:5000).
+
+Once the backend app starts serving, the `app.py` script handles the incoming requests and forward the input images to 
+detection jobs written in `detection.py`. To enable the detection, you need to specify the Azure ML `REST endpoint` and
+(optionally) the `authentication key` in the dotenv file. Complete the information required in the `.env_example` file 
+and rename the file to `.env`.
+
+### Front-end
+The front-end was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and all source code
+can be found under the `vitastic-ui` directory. 
+
+To start the front-end, navigate to the front-end directory, and install react dependencies by running:
+```
+cd vitastic-ui
 yarn install
 ```
 
-After installing, run the app in development mode:
+After installing, run the react app in development mode by:
 ```
 yarn start
 ```
