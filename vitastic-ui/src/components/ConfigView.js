@@ -48,24 +48,29 @@ class ConfigView extends React.Component {
 
     visualizationColors = [
         {
-            header: 'Magic Red',
-            image: `./img/C4314B.png`
+            header: 'Punk Yellow',
+            image: `./img/ffff01.png`,
+            hex: 'ffff01'
         },
         {
             header: 'Fluent Brand',
-            image: `./img/7f85f5.png`
+            image: `./img/7f85f5.png`,
+            hex: '7f85f5'
         },
         {
-            header: 'Punk Green',
-            image: `./img/3ff23f.png`
+            header: 'Meta Green',
+            image: `./img/3ff23f.png`,
+            hex: '3ff23f'
         },
         {
             header: 'Crazy Blue',
-            image: `./img/1aebff.png`
+            image: `./img/1aebff.png`,
+            hex: '1aebff'
         },
         {
-            header: 'Meta Yellow',
-            image: `./img/ffff01.png`
+            header: 'Magic Red',
+            image: `./img/C4314B.png`,
+            hex: 'C4314B'
         }
     ]
 
@@ -73,12 +78,17 @@ class ConfigView extends React.Component {
         const onViewChange = this.props.onViewChange;
         const onConfidenceChange = this.props.onConfidenceChange;
         const onScopeChange = this.props.onScopeChange;
+        const onColorChange = this.props.onColorChange;
 
         return (
             <Form>
                 <FormDropdown label="Visualization Color"
                               items={this.visualizationColors}
                               clearable checkable
+                              defaultValue={'Punk Yellow'}
+                              onChange={(e, value) => {
+                                  onColorChange(value.value['hex']);
+                                }}
                 />
 
                 <FormRadioGroup label="Detection Scope" vertical items={this.detectionScopes}

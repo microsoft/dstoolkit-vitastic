@@ -41,7 +41,9 @@ class App extends React.Component {
             // Default confidence value
             confidence: 0.3,
             // Default task scope setting
-            scope: 'segmentation'
+            scope: 'object detection',
+            // Default visualization color set to yellow
+            color: 'ffff01'
         };
     }
 
@@ -102,6 +104,10 @@ class App extends React.Component {
         this.setState({scope: scope })
     }
 
+    handleColorChange = (color) => {
+        this.setState({color: color })
+    }
+
     renderView() {
         switch (this.state.currentPage) {
             // case 'config':
@@ -114,12 +120,14 @@ class App extends React.Component {
                                    imageName={this.state.imageName}
                                    imageFile={this.state.imageFile}
                                    confidence={this.state.confidence}
-                                   scope={this.state.scope} />
+                                   scope={this.state.scope}
+                                   color={this.state.color} />
             default:
                 // return <DefaultView />
                 return <ConfigView onViewChange={() => this.handleNavigation('upload')}
                                    onConfidenceChange={this.handleConfidenceChange}
-                                   onScopeChange={this.handleScopeChange} />
+                                   onScopeChange={this.handleScopeChange}
+                                   onColorChange={this.handleColorChange} />
         }
     }
 
@@ -128,7 +136,7 @@ class App extends React.Component {
             <Grid columns="repeat(12, 1fr)" rows="64px calc(100vh - 114px) 50px" styles={{ height:'100vh' }}>
                 <Segment color="brand" inverted styles={{ gridColumn: 'span 12' }}>
                     <Image avatar src={`./img/mslogo.png`}/>
-                     <b> &nbsp;&nbsp;Detect the Crack </b>
+                     <b> &nbsp;&nbsp; Detect the Crack </b>
                 </Segment>
 
                 <Segment color="green" inverted styles={{ gridColumn: 'span 1', }}>

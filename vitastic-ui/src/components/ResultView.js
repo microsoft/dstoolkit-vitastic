@@ -33,6 +33,7 @@ class ResultView extends React.Component {
         data.append('file', this.props.imageFile);
         data.append('confidence', this.props.confidence);
         data.append('scope', this.props.scope);
+        data.append('color', this.props.color);
 
         let requestOptions = {
             method: 'POST',

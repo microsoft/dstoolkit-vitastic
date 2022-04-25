@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify, make_response, send_file
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from detection import detect_damage, visualize_damage   # sys.path.insert(0, '..')
 
@@ -18,7 +18,7 @@ def upload_image():
     img = request.files['file']
     thr = request.form['confidence']
     job = request.form['scope']
-    print(job)
+    color = f'#{request.form["color"]}'
 
     # Save user uploaded image to file
     imgname = secure_filename(img.filename)
@@ -33,7 +33,8 @@ def upload_image():
             bbox, poly, report = detect_damage(img_path=img_in, threshold=thr, scope='full')
             visualize_damage(input_path=img_in,
                              output_path=os.path.join(app.config['DETECTED_FOLDER'], secure_filename(img.filename)),
-                             bboxs=bbox, polys=poly)
+                             bboxs=bbox, polys=poly,
+                             vcolor=color)
             # Attach damage evaluation in the final report
             if report['nbox'] == 0:
                 report['eval'] = None
@@ -52,7 +53,8 @@ def upload_image():
             bbox, report = detect_damage(img_path=img_in, threshold=thr, scope='detection_only')
             visualize_damage(input_path=img_in,
                              output_path=os.path.join(app.config['DETECTED_FOLDER'], secure_filename(img.filename)),
-                             bboxs=bbox)
+                             bboxs=bbox,
+                             vcolor=color)
             # Attach damage evaluation in the final report
             if report['nbox'] == 0:
                 report['eval'] = None

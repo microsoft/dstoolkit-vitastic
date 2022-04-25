@@ -109,7 +109,7 @@ def visualize_normalized_bboxs(img_path, bboxs, save_path, color=(255, 0, 0, 255
         return byteIO.getvalue()
 
 
-def visualize_bboxs(img_path, bboxs, save_path, color=(255, 0, 0, 255), return_bytes=False):
+def visualize_bboxs(img_path, bboxs, save_path, color, return_bytes=False):
     img = Image.open(img_path)
     img2 = img.copy()
     draw = ImageDraw.Draw(img2)
@@ -127,7 +127,7 @@ def visualize_bboxs(img_path, bboxs, save_path, color=(255, 0, 0, 255), return_b
         return byteIO.getvalue()
 
 
-def visualize_polygons(img_path, polygons, save_path, color=(255, 0, 0, 128), return_bytes=False):
+def visualize_polygons(img_path, polygons, save_path, color, return_bytes=False):
     img = Image.open(img_path)
     img2 = img.copy()
     draw = ImageDraw.Draw(img2)

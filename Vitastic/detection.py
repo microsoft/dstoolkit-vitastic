@@ -1,4 +1,5 @@
 import os
+from PIL import ImageColor
 from src.ml import AMLPredictor
 from src.util import visualize_bboxs, visualize_polygons
 from dotenv import load_dotenv
@@ -35,15 +36,16 @@ def detect_damage(img_path, threshold, scope='full'):
         print('ok')
 
 
-def visualize_damage(input_path, output_path, bboxs, polys=None):
+def visualize_damage(input_path, output_path, bboxs, vcolor, polys=None):
+    vcolor = ImageColor.getcolor(vcolor, 'RGB') if vcolor else (0, 255, 0, 255)
     visualize_bboxs(img_path=input_path,
                     bboxs=bboxs,
                     save_path=output_path,
-                    color=(0, 255, 0, 255))
+                    color=vcolor)
 
     # Also visualize polygons if available
     if polys:
         visualize_polygons(img_path=output_path,
                            polygons=polys,
                            save_path=output_path,
-                           color=(0, 255, 0, 255))
+                           color=vcolor)
