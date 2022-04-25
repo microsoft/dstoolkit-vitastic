@@ -12,14 +12,14 @@ import {
 import _, {clone} from "lodash";
 
 const sampleImages = [
-    'cfd.jpg',
-    'deepcrack.jpg',
-    'forest.jpg',
-    'heavycrack.jpg',
-    'rissbilder.jpg',
-    'volker.jpg',
-    'volkerds.jpg',
-    'volkerback.jpg'
+    'samples/cfd.jpg',
+    'samples/deepcrack.jpg',
+    'samples/forest.jpg',
+    'samples/heavycrack.jpg',
+    'samples/rissbilder.jpg',
+    'samples/volker.jpg',
+    'samples/volkerds.jpg',
+    'samples/volkerback.jpg'
 ]
 
 const imageButtonStyles = {
