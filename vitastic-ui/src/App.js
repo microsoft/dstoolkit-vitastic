@@ -135,7 +135,7 @@ class App extends React.Component {
         return (
             <Grid columns="repeat(12, 1fr)" rows="64px calc(100vh - 114px) 50px" styles={{ height:'100vh' }}>
                 <Segment color="brand" inverted styles={{ gridColumn: 'span 12' }}>
-                    <Image avatar src={`./img/mslogo.png`}/>
+                    <Image avatar src={`img/mslogo.png`}/>
                      <b> &nbsp;&nbsp; Detect the Crack </b>
                 </Segment>
 

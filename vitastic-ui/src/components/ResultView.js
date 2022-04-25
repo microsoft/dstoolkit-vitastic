@@ -87,7 +87,7 @@ class ResultView extends React.Component {
                     progress={this.state.jobProgress}
                 />
 
-                <Image src={this.state.resultReady ? this.state.imgResponse : null} styles={imageResponseStyles} />
+                <Image src={this.state.resultReady ? this.state.imgResponse : `img/blank.png`} styles={imageResponseStyles} />
 
                 <Flex>
                     <Button tinted content="Download" disabled={!this.state.resultReady}
