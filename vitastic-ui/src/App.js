@@ -19,7 +19,8 @@ import {
     PaperclipIcon,
     FormatIcon,
     EyeIcon,
-    StarIcon,
+    Checkbox,
+    StarIcon, FormCheckbox,
 } from '@fluentui/react-northstar'
 
 
@@ -92,8 +93,8 @@ class App extends React.Component {
         this.setState({ currentPage: currentPage, activeIndex: newIndex  })
     }
 
-    handleImageUpload = (name, file) => {
-        this.setState({imageName: name, imageFile: file })
+    handleImageUpload = (file) => {
+        this.setState({imageFile: file })
     }
 
     handleConfidenceChange = (conf) => {
@@ -117,7 +118,6 @@ class App extends React.Component {
                                    onImageUpload={this.handleImageUpload} />
             case 'result':
                 return <ResultView onViewChange={() => this.handleNavigation('start')}
-                                   imageName={this.state.imageName}
                                    imageFile={this.state.imageFile}
                                    confidence={this.state.confidence}
                                    scope={this.state.scope}
@@ -137,6 +137,7 @@ class App extends React.Component {
                 <Segment color="brand" inverted styles={{ gridColumn: 'span 12' }}>
                     <Image avatar src={`img/mslogo.png`}/>
                      <b> &nbsp;&nbsp; Detect the Crack </b>
+                    {/*<Checkbox label="Dark mode" toggle defaultChecked />*/}
                 </Segment>
 
                 <Segment color="green" inverted styles={{ gridColumn: 'span 1', }}>

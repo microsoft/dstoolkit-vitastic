@@ -56,8 +56,8 @@ class UploadView extends React.Component {
                         {/* Present input button encase no file uploaded yet */}
                         {!this.state.uploadFile && <Input
                             fluid type="file" label="Upload an image" onChange={ (e, v) => {
-                                // Set image name and file as property
-                                this.props.onImageUpload(e.target.files[0].name, e.target.files[0]);
+                                // Set image file as property
+                                this.props.onImageUpload(e.target.files[0]);
                                 // Set image URL as state for visualizing
                                 this.setState({
                                     uploadFile: URL.createObjectURL(e.target.files[0])
@@ -93,8 +93,14 @@ class UploadView extends React.Component {
             return (
                 <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.isClicked[index]}
                         onClick={(state) => {
-                            // Set image name and URL as property
-                            this.props.onImageUpload(imageName, `./img/${imageName}`);
+                            // Set image file as property
+                            fetch(`http://127.0.0.1:3000/img/${imageName}`)
+                                .then(response => response.blob())
+                                .then(img => img.arrayBuffer())
+                                .then(blob => this.props.onImageUpload(
+                                    new File([blob], imageName))
+                                )
+
                             this.setState({
                                 isClicked: Array(sampleImages.length).fill(false).map((name, i) => i === index),
                                 isSampleClicked: true,

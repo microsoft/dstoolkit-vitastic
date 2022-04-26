@@ -19,7 +19,7 @@ class ConfigView extends React.Component {
 
         this.state = {
             // Default detection confidence threshold
-            confidence: 0.3
+            confidence: 0.3,
         };
     }
 
@@ -86,7 +86,10 @@ class ConfigView extends React.Component {
                               items={this.visualizationColors}
                               clearable checkable
                               defaultValue={'Punk Yellow'}
+                              // defaultValue={this.state.colorName}
                               onChange={(e, value) => {
+                                  // this.setState({colorName:value.value['header']});
+                                  // console.log(value.value)
                                   onColorChange(value.value['hex']);
                                 }}
                 />
