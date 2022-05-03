@@ -7,7 +7,6 @@ import {
     FormDropdown,
     FormRadioGroup,
     FormSlider,
-    Image,
     Label
 } from "@fluentui/react-northstar";
 import {value} from "lodash/seq";
@@ -97,10 +96,7 @@ class ConfigView extends React.Component {
                               items={this.visualizationColors}
                               clearable checkable
                               defaultValue={'Punk Yellow'}
-                              // defaultValue={this.state.colorName}
                               onChange={(e, value) => {
-                                  // this.setState({colorName:value.value['header']});
-                                  // console.log(value.value)
                                   onColorChange(value.value['hex']);
                                 }}
                 />

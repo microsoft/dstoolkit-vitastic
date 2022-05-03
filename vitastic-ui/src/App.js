@@ -1,12 +1,6 @@
-// TODO: batch-processing: reports generation
-// UI Simplicity, multiple pages introduce unnecessary complexity
-// Content instead of design
-// Metadata including time, location of crack, etc.
-
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ConfigView from './components/ConfigView';
-import DefaultView from './components/DefaultView';
 import UploadView from './components/UploadView';
 import ResultView from './components/ResultView';
 
@@ -15,12 +9,9 @@ import {
     Segment,
     Menu,
     Image,
-    Layout,
     PaperclipIcon,
     FormatIcon,
     EyeIcon,
-    Checkbox,
-    StarIcon, FormCheckbox,
 } from '@fluentui/react-northstar'
 
 
@@ -31,7 +22,6 @@ class App extends React.Component {
 
         this.state = {
             // Default menu item indicator
-            // currentPage: 'start',
             currentPage: 'config',
             // Default menu item index
             activeIndex: 0,
@@ -47,15 +37,6 @@ class App extends React.Component {
     }
 
     menuItems = [
-        // {
-        //     icon: (
-        //         <StarIcon {...{outline: true,}}/>
-        //     ),
-        //     key: 'start',
-        //     content: 'Start',
-        //     pills: true,
-        //     onClick: () => { this.setState({ currentPage: 'start', activeIndex: 0}) }
-        // },
         {
             icon: (
                 <FormatIcon {...{outline: true,}}/>
@@ -86,7 +67,6 @@ class App extends React.Component {
     ]
 
     handleNavigation = (currentPage) => {
-        // const newIndex = (this.state.activeIndex + 1) %  4;
         const newIndex = (this.state.activeIndex + 1) %  3;
         this.setState({ currentPage: currentPage, activeIndex: newIndex  })
     }
@@ -109,8 +89,6 @@ class App extends React.Component {
 
     renderView() {
         switch (this.state.currentPage) {
-            // case 'config':
-            //     return <ConfigView onViewChange={() => this.handleNavigation('upload')} />
             case 'upload':
                 return <UploadView onViewChange={() => this.handleNavigation('result')}
                                    onImageUpload={this.handleImageUpload} />
@@ -121,7 +99,6 @@ class App extends React.Component {
                                    scope={this.state.scope}
                                    color={this.state.color} />
             default:
-                // return <DefaultView />
                 return <ConfigView onViewChange={() => this.handleNavigation('upload')}
                                    onConfidenceChange={this.handleConfidenceChange}
                                    onScopeChange={this.handleScopeChange}
