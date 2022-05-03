@@ -1,6 +1,22 @@
 # Vitastic
 
-## Get Start
+Vitastic is a Javascript/Python-based solution to quickly build web interface that serves object detection
+workloads. Vitastic combines Microsoft's themable React component library [FluentUI](https://fluentsite.z22.web.core.windows.net/0.60.1) 
+frontend with a Python [Flask](https://flask.palletsprojects.com) backend, allowing you to build your own web interface using the deployed object detection models for
+demo-cases, testing and fine-tuning.
+
+
+## Prerequisites
+In order to successfully set up your solution you will need to have provisioned the following:
+
+* Python: A recent `Python 3.8` interpreter to run the Flask backend on.
+* Yarn: A package and project manager for Node.js applications.
+* Object detection model deployed in Azure ML as a RESTful API.
+See [dstoolkit-objectdetection-accelerator](https://github.com/microsoft/dstoolkit-objectdetection-tensorflow-azureml) 
+to see how to build an end-to-end training and deployment pipelines in Azure ML.
+
+
+## Getting Started
 ### Back-end
 The back-end of Vitastic is implemented using python's [Flask](https://flask.palletsprojects.com) framework. All 
 source code reside in the `Vitastic` folder. 
@@ -37,6 +53,39 @@ After installing, run the react app in development mode by:
 yarn start
 ```
 You can open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+## Repository Details 
+A high-level structure of the Vitastic repository is as follows:
+```
+|-- Vitastic
+|   |-- app.py
+|   |-- detection.py
+|   |-- requirements.txt
+|   |-- src
+|   |   |-- ml.py
+|   |   `-- util.py
+`-- vitastic-ui
+	|-- package.json
+    |-- public
+    |   |-- img
+    |   `-- index.html
+    |-- src
+    |   |-- App.css
+    |   |-- App.js
+    |   |-- components
+    |   |   |-- ConfigView.js
+    |   |   |-- UploadView.js
+    |   |   `-- ResultView.js
+    |   |-- index.css
+    |   `-- index.js
+    `-- yarn.lock
+```
+
+The following architecture illustrates how the code is organised into an end to end workflow:
+
+![drawing](./docs/architecture.jpg)
+
+
 
 
 ## Contributing
