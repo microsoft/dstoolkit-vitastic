@@ -17,7 +17,7 @@ to see how to build an end-to-end training and deployment pipelines in Azure ML.
 
 
 ## Getting Started
-### Back-end
+### Backend
 The back-end of Vitastic is implemented using python's [Flask](https://flask.palletsprojects.com) framework. All 
 source code reside in the `Vitastic` folder. 
 
@@ -38,7 +38,7 @@ detection jobs written in `detection.py`. To enable the detection, you need to s
 (optionally) the `authentication key` in the dotenv file. Complete the information required in the `.env_example` file 
 and rename the file to `.env`.
 
-### Front-end
+### Frontend
 The front-end was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and all source code
 can be found under the `vitastic-ui` directory. 
 
@@ -47,12 +47,26 @@ To start the front-end, navigate to the front-end directory, and install react d
 cd vitastic-ui
 yarn install
 ```
-
 After installing, run the react app in development mode by:
 ```
 yarn start
 ```
 You can open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+### Frontend Customization
+Vitastic also supports you to build a customized version of frontend design by enabling React component configurations.
+You can navigate to `vitastic-ui/src/config.json` and modify this configuration file to suit your working scenarios:
+```
+cd vitastic-ui/src
+nano config.json
+```
+
+Below is a detailed description of each configuration possibilities:
+* `darkTheme`: If using fluent UI dark theme, by default set to false.
+* `defaultConfidence`: Model confidence value, by default set to 0.5.
+* `modelScope`: semantic segmentation
+* `sampleImagesDir`: 
+
 
 ## Repository Details 
 A high-level structure of the Vitastic repository is as follows:
