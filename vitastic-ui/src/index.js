@@ -3,10 +3,11 @@ import './index.css';
 import App from './App';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import { Provider, teamsTheme, teamsV2Theme, teamsDarkTheme, teamsDarkV2Theme} from '@fluentui/react-northstar';
+import { Provider, teamsTheme, teamsDarkTheme } from '@fluentui/react-northstar';
+import configData from './config.json'
 
 ReactDOM.render(
-    <Provider theme={teamsV2Theme}>
+    <Provider theme={configData.darkTheme ? teamsDarkTheme : teamsTheme}>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />} />

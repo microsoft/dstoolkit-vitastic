@@ -1,0 +1,6 @@
+{
+  "darkTheme": true,
+  "defaultConfidence": "0.5",
+  "modelScope": "semantic segmentation",
+  "sampleImagesDir": "samples/"
+}

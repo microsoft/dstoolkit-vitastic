@@ -11,6 +11,7 @@ import {
     Label
 } from "@fluentui/react-northstar";
 import {value} from "lodash/seq";
+import configData from "../config.json";
 
 class ConfigView extends React.Component {
 
@@ -19,11 +20,11 @@ class ConfigView extends React.Component {
 
         this.state = {
             // Default detection confidence threshold
-            confidence: 0.3,
+            confidence: configData.defaultConfidence,
         };
     }
 
-    detectionScopes = [
+    detectionScopeList = [
         {
             name: 'classification',
             key: 'classification',
@@ -45,6 +46,16 @@ class ConfigView extends React.Component {
 
         }
     ]
+
+    detectionScopes = (scope) => {
+        if (scope === 'semantic segmentation') {
+            return this.detectionScopeList;
+        } else if (scope === 'object detection') {
+            return this.detectionScopeList.slice(0, 2);
+        } else if (scope === 'classification') {
+            return this.detectionScopeList.slice(0, 1);
+        }
+    }
 
     visualizationColors = [
         {
@@ -94,8 +105,8 @@ class ConfigView extends React.Component {
                                 }}
                 />
 
-                <FormRadioGroup label="Detection Scope" vertical items={this.detectionScopes}
-                                defaultCheckedValue={'object detection'}
+                <FormRadioGroup label="Detection Scope" vertical items={this.detectionScopes(configData.modelScope)}
+                                defaultCheckedValue={configData.modelScope}
                                 onCheckedValueChange={(e, value) => {
                                     onScopeChange(value.value);
                                 }}

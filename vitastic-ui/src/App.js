@@ -39,8 +39,6 @@ class App extends React.Component {
             imageName: null,
             // Default uploaded image file
             imageFile: null,
-            // Default confidence value
-            confidence: 0.3,
             // Default task scope setting
             scope: 'object detection',
             // Default visualization color set to yellow
@@ -137,7 +135,6 @@ class App extends React.Component {
                 <Segment color="brand" inverted styles={{ gridColumn: 'span 12' }}>
                     <Image avatar src={`img/mslogo.png`}/>
                      <b> &nbsp;&nbsp; Detect the Crack </b>
-                    {/*<Checkbox label="Dark mode" toggle defaultChecked />*/}
                 </Segment>
 
                 <Segment color="green" inverted styles={{ gridColumn: 'span 1', }}>
