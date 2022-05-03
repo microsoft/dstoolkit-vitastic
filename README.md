@@ -9,9 +9,9 @@ demo-cases, testing and fine-tuning.
 ## Prerequisites
 In order to successfully set up your solution you will need to have provisioned the following:
 
-* Python: A recent `Python 3.8` interpreter to run the Flask backend on.
-* Yarn: A package and project manager for Node.js applications.
-* Object detection model deployed in Azure ML as a RESTful API.
+* `Python`: A recent `Python 3.8` interpreter to run the Flask backend on.
+* `Yarn`: A package and project manager for Node.js applications.
+* `Object detection model`: Deployed in Azure ML as a RESTful API.
 See [dstoolkit-objectdetection-accelerator](https://github.com/microsoft/dstoolkit-objectdetection-tensorflow-azureml) 
 to see how to build an end-to-end training and deployment pipelines in Azure ML.
 
@@ -64,6 +64,7 @@ A high-level structure of the Vitastic repository is as follows:
 |   |-- src
 |   |   |-- ml.py
 |   |   `-- util.py
+|-- docs
 `-- vitastic-ui
 	|-- package.json
     |-- public
