@@ -1,6 +1,6 @@
 # Vitastic
 
-Vitastic is a Javascript/Python-based solution to quickly build web interface that serves object detection
+Vitastic is a js- & python based solution to quickly build web interface that serves object detection
 workloads. Vitastic combines Microsoft's themable React component library [FluentUI](https://fluentsite.z22.web.core.windows.net/0.60.1) 
 frontend with a Python [Flask](https://flask.palletsprojects.com) backend, allowing you to build your own web interface using the deployed object detection models for
 demo-cases, testing and fine-tuning.
@@ -69,8 +69,8 @@ Below is a detailed description of each configuration possibilities:
 * `sampleImagesDir`: Path of directory consisting of sample images to be displayed. This should be within the `vitastic-ui/public/img` directory.
 
 <table><tr>
-<td> <img src="./docs/light_theme.jpg" alt="Drawing" style="width: 450px;"/> </td>
-<td> <img src="./docs/dark_theme.jpg" alt="Drawing" style="width: 450px;"/> </td>
+<td> <img src="./docs/light_theme.jpg" alt="Drawing" /> </td>
+<td> <img src="./docs/dark_theme.jpg" alt="Drawing" /> </td>
 </tr></table>
 
 ## Repository Details 
