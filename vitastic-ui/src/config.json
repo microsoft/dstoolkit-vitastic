@@ -1,4 +1,5 @@
 {
+  "title": "Vitastic Detector",
   "darkTheme": false,
   "defaultConfidence": "0.5",
   "modelScope": "semantic segmentation",

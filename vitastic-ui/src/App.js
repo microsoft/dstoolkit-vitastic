@@ -3,7 +3,6 @@ import React from 'react';
 import ConfigView from './components/ConfigView';
 import UploadView from './components/UploadView';
 import ResultView from './components/ResultView';
-
 import {
     Grid,
     Segment,
@@ -13,7 +12,7 @@ import {
     FormatIcon,
     EyeIcon,
 } from '@fluentui/react-northstar'
-
+import configData from "./config.json";
 
 class App extends React.Component {
 
@@ -111,7 +110,7 @@ class App extends React.Component {
             <Grid columns="repeat(12, 1fr)" rows="64px calc(100vh - 114px) 50px" styles={{ height:'100vh' }}>
                 <Segment color="brand" inverted styles={{ gridColumn: 'span 12' }}>
                     <Image avatar src={`img/mslogo.png`}/>
-                     <b> &nbsp;&nbsp; Detect the Crack </b>
+                     <b> &nbsp;&nbsp; {configData.title} </b>
                 </Segment>
 
                 <Segment color="green" inverted styles={{ gridColumn: 'span 1', }}>
