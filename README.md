@@ -62,10 +62,10 @@ nano config.json
 ```
 
 Below is a detailed description of each configuration possibilities:
-* `darkTheme`: If using fluent UI dark theme, by default set to false.
+* `darkTheme`: Whether to use fluent UI dark theme, by default set to false.
 * `defaultConfidence`: Model confidence value, by default set to 0.5.
-* `modelScope`: semantic segmentation
-* `sampleImagesDir`: 
+* `modelScope`: Backbone model functionality, currently supports classification, object detection or semantic segmentation
+* `sampleImagesDir`: Path of directory consisting of sample images to be displayed. This should be within the `vitastic-ui/public/img` directory.
 
 
 ## Repository Details 
