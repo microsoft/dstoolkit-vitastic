@@ -29,9 +29,11 @@ class App extends React.Component {
             // Default uploaded image file
             imageFile: null,
             // Default task scope setting
-            scope: 'object detection',
+            scope: configData.modelScope,
             // Default visualization color set to yellow
-            color: 'ffff01'
+            color: 'ffff01',
+            // Default confidence threshold
+            confidence: configData.defaultConfidence
         };
     }
 

@@ -5,12 +5,12 @@ from src.util import visualize_bboxs, visualize_polygons
 from dotenv import load_dotenv
 
 load_dotenv()
-damage_endpoint = os.getenv('DAMAGE_PREDICT_ENDPOINT')
 damage_enable_auth = True
+damage_endpoint = os.getenv('DAMAGE_PREDICT_ENDPOINT')
 damage_auth = os.getenv('DAMAGE_PREDICT_KEY')
 
 
-def detect_damage(img_path, threshold, scope='full'):
+def detect_damage(img_path, threshold, scope):
     global damage_endpoint, damage_enable_auth, damage_auth
 
     aml_predictor = AMLPredictor(endpoint=damage_endpoint + "?prob=" + str(threshold),
@@ -20,13 +20,13 @@ def detect_damage(img_path, threshold, scope='full'):
     print("Endpoint: " + damage_endpoint + "?prob=" + str(threshold))
     responses = aml_predictor.model_request(test_img=img_path)
 
-    if scope == 'full':
+    if scope == 'semantic segmentation':
         damage_bboxs, damage_polygons, log = aml_predictor.extract_segmentations(test_img=img_path,
                                                                                  model_responses=responses,
                                                                                  with_logging=True)
         return damage_bboxs, damage_polygons, log
 
-    elif scope == 'detection_only':
+    elif scope == 'object detection':
         damage_bboxs, log = aml_predictor.extract_detections(test_img=img_path,
                                                              model_responses=responses,
                                                              with_logging=True)

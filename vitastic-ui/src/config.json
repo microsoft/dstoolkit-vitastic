@@ -1,7 +1,7 @@
 {
   "title": "Vitastic Detector",
   "darkTheme": false,
-  "defaultConfidence": "0.5",
+  "defaultConfidence": "0.4",
   "modelScope": "semantic segmentation",
   "sampleImagesDir": "samples/"
 }

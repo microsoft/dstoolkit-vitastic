@@ -18,6 +18,8 @@ class ConfigView extends React.Component {
         super(props);
 
         this.state = {
+            // Default task scope setting
+            scope: configData.modelScope,
             // Default detection confidence threshold
             confidence: configData.defaultConfidence,
         };
@@ -102,7 +104,7 @@ class ConfigView extends React.Component {
                 />
 
                 <FormRadioGroup label="Detection Scope" vertical items={this.detectionScopes(configData.modelScope)}
-                                defaultCheckedValue={configData.modelScope}
+                                defaultCheckedValue={this.state.scope}
                                 onCheckedValueChange={(e, value) => {
                                     onScopeChange(value.value);
                                 }}
