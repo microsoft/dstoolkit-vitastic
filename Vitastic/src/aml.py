@@ -4,7 +4,7 @@ import json
 import requests
 import numpy as np
 from PIL import Image
-from src.util import unmold_mask
+from util import unmold_mask
 
 
 class AMLPredictor:
@@ -34,6 +34,27 @@ class AMLPredictor:
             headers['Authorization'] = f'Bearer {self.auth}'
         resp = requests.post(self.endpoint, input_data, headers=headers)
         return json.loads(resp.text)
+
+    @staticmethod
+    def extract_detections(test_img, model_responses, with_logging=True):
+        x, y = Image.open(test_img).size
+        bboxs = []
+        for detect in model_responses:
+            box = detect['bounding_box']
+            ymin, xmin, ymax, xmax = box[0], box[1], box[2], box[3]
+            o_ymin, o_xmin, o_ymax, o_xmax = y * ymin, x * xmin, y * ymax, x * xmax  # De-normalizing
+            bbox = [int(x) for x in [o_xmin, o_ymin, o_xmax-o_xmin, o_ymax-o_ymin]]
+            bboxs.append(bbox)
+
+        if with_logging:
+            bbox_pixels = sum([(bbox[-1] * bbox[-2]) for bbox in bboxs])
+            bbox_percentage = bbox_pixels / (x * y)
+
+            return bboxs, {'nbox': len(bboxs),
+                           'box_pixel': bbox_pixels,
+                           'bbox_percentage': bbox_percentage}
+        else:
+            return bboxs
 
     @staticmethod
     def extract_segmentations(test_img, model_responses, with_logging=True):
@@ -70,24 +91,3 @@ class AMLPredictor:
 
         else:
             return bboxs, polygons
-
-    @staticmethod
-    def extract_detections(test_img, model_responses, with_logging=True):
-        x, y = Image.open(test_img).size
-        bboxs = []
-        for detect in model_responses:
-            box = detect['bounding_box']
-            ymin, xmin, ymax, xmax = box[0], box[1], box[2], box[3]
-            o_ymin, o_xmin, o_ymax, o_xmax = y * ymin, x * xmin, y * ymax, x * xmax  # De-normalizing
-            bbox = [int(x) for x in [o_xmin, o_ymin, o_xmax-o_xmin, o_ymax-o_ymin]]
-            bboxs.append(bbox)
-
-        if with_logging:
-            bbox_pixels = sum([(bbox[-1] * bbox[-2]) for bbox in bboxs])
-            bbox_percentage = bbox_pixels / (x * y)
-
-            return bboxs, {'nbox': len(bboxs),
-                           'box_pixel': bbox_pixels,
-                           'bbox_percentage': bbox_percentage}
-        else:
-            return bboxs

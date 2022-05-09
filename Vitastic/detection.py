@@ -1,6 +1,6 @@
 import os
 from PIL import ImageColor
-from src.ml import AMLPredictor
+from src.aml import AMLPredictor
 from src.util import visualize_bboxs, visualize_polygons
 from dotenv import load_dotenv
 
