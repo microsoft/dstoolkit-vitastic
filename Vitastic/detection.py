@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 damage_enable_auth = True
-damage_endpoint = os.getenv('DAMAGE_PREDICT_ENDPOINT')
-damage_auth = os.getenv('DAMAGE_PREDICT_KEY')
+damage_endpoint = os.getenv('DETECTION_ENDPOINT')
+damage_auth = os.getenv('DETECTION_KEY')
 
 
 def detect_damage(img_path, threshold, scope):

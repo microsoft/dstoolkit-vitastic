@@ -2,7 +2,6 @@
 import cv2
 import json
 import requests
-import io
 import numpy as np
 from PIL import Image
 from .util import unmold_mask
