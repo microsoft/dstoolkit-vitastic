@@ -1,6 +1,6 @@
 import os
 from PIL import ImageColor
-from src.aml import AMLPredictor
+from src.aml import AzureMLPredictor
 from src.util import visualize_bboxs, visualize_polygons
 from dotenv import load_dotenv
 
@@ -13,27 +13,22 @@ damage_auth = os.getenv('DAMAGE_PREDICT_KEY')
 def detect_damage(img_path, threshold, scope):
     global damage_endpoint, damage_enable_auth, damage_auth
 
-    aml_predictor = AMLPredictor(endpoint=damage_endpoint + "?prob=" + str(threshold),
-                                 enable_auth=damage_enable_auth,
-                                 auth=damage_auth)
-
+    aml_predictor = AzureMLPredictor(endpoint=damage_endpoint + "?prob=" + str(threshold),
+                                     enable_auth=damage_enable_auth,
+                                     auth=damage_auth)
     print("Endpoint: " + damage_endpoint + "?prob=" + str(threshold))
-    responses = aml_predictor.model_request(test_img=img_path)
 
     if scope == 'semantic segmentation':
-        damage_bboxs, damage_polygons, log = aml_predictor.extract_segmentations(test_img=img_path,
-                                                                                 model_responses=responses,
-                                                                                 with_logging=True)
-        return damage_bboxs, damage_polygons, log
+        return aml_predictor.extract_segmentations(test_img=img_path, with_logging=True)
 
     elif scope == 'object detection':
-        damage_bboxs, log = aml_predictor.extract_detections(test_img=img_path,
-                                                             model_responses=responses,
-                                                             with_logging=True)
-        return damage_bboxs, log
+        return aml_predictor.extract_detections(test_img=img_path, with_logging=True)
+
+    elif scope == 'classification':
+        pass
 
     else:
-        print('ok')
+        raise ValueError('Invalid scope value')
 
 
 def visualize_damage(input_path, output_path, bboxs, vcolor, polys=None):

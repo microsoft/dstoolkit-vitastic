@@ -2,12 +2,13 @@
 import cv2
 import json
 import requests
+import io
 import numpy as np
 from PIL import Image
-from util import unmold_mask
+from .util import unmold_mask
 
 
-class AMLPredictor:
+class AzureMLPredictor:
 
     def __init__(
             self,
@@ -27,23 +28,24 @@ class AMLPredictor:
         :param test_img: path or url of the test image
         :return: model response in json
         """
-        input_data = open(test_img, 'rb').read()
-
+        input_bytes = open(test_img, 'rb').read()
         headers = {'Content-Type': 'application/json'}
         if self.enable_auth:
             headers['Authorization'] = f'Bearer {self.auth}'
-        resp = requests.post(self.endpoint, input_data, headers=headers)
+        resp = requests.post(self.endpoint, input_bytes, headers=headers)
+
         return json.loads(resp.text)
 
-    @staticmethod
-    def extract_detections(test_img, model_responses, with_logging=True):
+    def extract_detections(self, test_img, with_logging=True):
+        model_responses = self.model_request(test_img=test_img)
+
         x, y = Image.open(test_img).size
         bboxs = []
         for detect in model_responses:
             box = detect['bounding_box']
             ymin, xmin, ymax, xmax = box[0], box[1], box[2], box[3]
             o_ymin, o_xmin, o_ymax, o_xmax = y * ymin, x * xmin, y * ymax, x * xmax  # De-normalizing
-            bbox = [int(x) for x in [o_xmin, o_ymin, o_xmax-o_xmin, o_ymax-o_ymin]]
+            bbox = [int(x) for x in [o_xmin, o_ymin, o_xmax - o_xmin, o_ymax - o_ymin]]
             bboxs.append(bbox)
 
         if with_logging:
@@ -56,8 +58,9 @@ class AMLPredictor:
         else:
             return bboxs
 
-    @staticmethod
-    def extract_segmentations(test_img, model_responses, with_logging=True):
+    def extract_segmentations(self, test_img, with_logging=True):
+        model_responses = self.model_request(test_img=test_img)
+
         x, y = Image.open(test_img).size
         bboxs, polygons = [], []
         area = 0
