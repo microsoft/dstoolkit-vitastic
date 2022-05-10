@@ -21,7 +21,7 @@ class AzureMLPredictor:
         self.enable_auth = enable_auth
         self.auth = auth
 
-    def model_request(self, test_img):
+    def _model_request(self, test_img):
         """
         Send a test image to AML model for object detection or segmentation
         :param test_img: path or url of the test image
@@ -35,8 +35,11 @@ class AzureMLPredictor:
 
         return json.loads(resp.text)
 
+    def extract_classification(self, test_img, with_logging=True):
+        pass
+
     def extract_detections(self, test_img, with_logging=True):
-        model_responses = self.model_request(test_img=test_img)
+        model_responses = self._model_request(test_img=test_img)
 
         x, y = Image.open(test_img).size
         bboxs = []
@@ -44,7 +47,7 @@ class AzureMLPredictor:
             box = detect['bounding_box']
             ymin, xmin, ymax, xmax = box[0], box[1], box[2], box[3]
             o_ymin, o_xmin, o_ymax, o_xmax = y * ymin, x * xmin, y * ymax, x * xmax  # De-normalizing
-            bbox = [int(x) for x in [o_xmin, o_ymin, o_xmax - o_xmin, o_ymax - o_ymin]]
+            bbox = [int(x) for x in [o_xmin, o_ymin, o_xmax - o_xmin, o_ymax - o_ymin]]  # [l, t, w, h]
             bboxs.append(bbox)
 
         if with_logging:
@@ -58,7 +61,7 @@ class AzureMLPredictor:
             return bboxs
 
     def extract_segmentations(self, test_img, with_logging=True):
-        model_responses = self.model_request(test_img=test_img)
+        model_responses = self._model_request(test_img=test_img)
 
         x, y = Image.open(test_img).size
         bboxs, polygons = [], []
