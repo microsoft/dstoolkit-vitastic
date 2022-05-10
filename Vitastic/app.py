@@ -14,7 +14,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 def handle_segmentation_job(job):
-    bbox, poly, report = detect_damage(img_path=job.img_in, threshold=job.thr, scope=job.scope)
+    bbox, poly, report = detect_damage(img_path=job.img_in, threshold=job.thr, scope=job.scope, service=job.service)
     visualize_damage(input_path=job.img_in,
                      output_path=job.img_out,
                      bboxs=bbox, polys=poly,
@@ -35,7 +35,7 @@ def handle_segmentation_job(job):
 
 
 def handle_detection_job(job):
-    bbox, report = detect_damage(img_path=job.img_in, threshold=job.thr, scope=job.scope)
+    bbox, report = detect_damage(img_path=job.img_in, threshold=job.thr, scope=job.scope, service=job.service)
     visualize_damage(input_path=job.img_in,
                      output_path=job.img_out,
                      bboxs=bbox,
@@ -55,6 +55,10 @@ def handle_detection_job(job):
     return report
 
 
+def handle_classification_job(job):
+    pass
+
+
 def catch_request(req):
     """Catch post attributes and files"""
     return DefaultMunch.fromDict({
@@ -64,7 +68,8 @@ def catch_request(req):
         'img_out': os.path.join(app.config['DETECTED_FOLDER'], secure_filename(req.files['file'].filename)),
         'thr': req.form['confidence'],
         'scope': req.form['scope'],
-        'color': f'#{req.form["color"]}'
+        'color': f'#{req.form["color"]}',
+        'service': req.form['service']
     })
 
 
@@ -83,16 +88,17 @@ def upload_image():
     # Detect and visualize damages on input image
     if os.path.isfile(img_in):
         # segmentation job
-        if job['scope'] == "semantic segmentation":
+        if job.scope == "semantic segmentation":
             handle_segmentation_job(job=job)
 
         # detection job
-        elif job['scope'] == "object detection":
+        if job.scope == "object detection":
             handle_detection_job(job=job)
 
         # classification job
-        else:
+        if job.scope == "classification":
             pass
+
     else:
         pass
 

@@ -9,6 +9,7 @@ import {
     Dialog,
     Table
 } from "@fluentui/react-northstar";
+import configData from "../AppConfig.json";
 
 class ResultView extends React.Component {
 
@@ -16,9 +17,12 @@ class ResultView extends React.Component {
         super(props);
 
         this.state = {
+            // Whether job result is available
             resultReady: false,
+            // Default job status
             jobStatus: 'Initializing...',
-            jobProgress: 5,
+            // Default job progress in range of 0-100
+            jobProgress: 5
         }
 
     }
@@ -33,10 +37,11 @@ class ResultView extends React.Component {
     async handleImageUpload() {
         let data = new FormData();
         data.append('file', this.props.imageFile);
-        // console.log(this.props.imageFile);
         data.append('confidence', this.props.confidence);
         data.append('scope', this.props.scope);
         data.append('color', this.props.color);
+        // Insert model backbone service so that backend handles accordingly
+        data.append('service', configData.modelService)
 
         let requestOptions = {
             method: 'POST',

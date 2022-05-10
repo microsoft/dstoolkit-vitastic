@@ -10,7 +10,7 @@ import {
     Label
 } from "@fluentui/react-northstar";
 import {value} from "lodash/seq";
-import configData from "../config.json";
+import configData from "../AppConfig.json";
 
 class ConfigView extends React.Component {
 
@@ -21,7 +21,7 @@ class ConfigView extends React.Component {
             // Default task scope setting
             scope: configData.modelScope,
             // Default detection confidence threshold
-            confidence: configData.defaultConfidence,
+            confidence: configData.defaultConfidence
         };
     }
 
@@ -103,7 +103,8 @@ class ConfigView extends React.Component {
                                 }}
                 />
 
-                <FormRadioGroup label="Detection Scope" vertical items={this.detectionScopes(configData.modelScope)}
+                <FormRadioGroup label="Detection Scope" vertical
+                                items={this.detectionScopes(configData.modelScope)}
                                 defaultCheckedValue={this.state.scope}
                                 onCheckedValueChange={(e, value) => {
                                     onScopeChange(value.value);

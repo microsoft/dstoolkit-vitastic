@@ -12,7 +12,7 @@ import {
     FormatIcon,
     EyeIcon,
 } from '@fluentui/react-northstar'
-import configData from "./config.json";
+import configData from "./AppConfig.json";
 
 class App extends React.Component {
 
@@ -28,12 +28,12 @@ class App extends React.Component {
             imageName: null,
             // Default uploaded image file
             imageFile: null,
-            // Default task scope setting
-            scope: configData.modelScope,
             // Default visualization color set to yellow
             color: 'ffff01',
             // Default confidence threshold
-            confidence: configData.defaultConfidence
+            confidence: configData.defaultConfidence,
+            // Default task scope setting
+            scope: configData.modelScope
         };
     }
 

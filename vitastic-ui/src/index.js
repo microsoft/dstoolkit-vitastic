@@ -4,7 +4,7 @@ import App from './App';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Provider, teamsTheme, teamsDarkTheme } from '@fluentui/react-northstar';
-import configData from './config.json'
+import configData from './AppConfig.json'
 
 ReactDOM.render(
     <Provider theme={configData.darkTheme ? teamsDarkTheme : teamsTheme}>
