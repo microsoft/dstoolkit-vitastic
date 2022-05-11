@@ -65,6 +65,7 @@ Below is a detailed description of each configuration possibilities:
 * `title`: A customizable title appearing in the top-left corner.
 * `darkTheme`: Whether to use fluent UI dark theme, by default set to false.
 * `defaultConfidence`: Model confidence value, by default set to 0.5.
+* `modelService`: Model backbone service, currently supports Azure machine learning `aml` and Azure custom vision `cv`.
 * `modelScope`: Backbone model functionality, currently supports classification, object detection or semantic segmentation
 * `sampleImagesDir`: Path of directory consisting of sample images to be displayed. This should be within the `vitastic-ui/public/img` directory.
 
@@ -81,7 +82,8 @@ A high-level structure of the Vitastic repository is as follows:
 |   |-- detection.py
 |   |-- requirements.txt
 |   |-- src
-|   |   |-- ml.py
+|   |   |-- aml.py
+|   |   |-- cv.py
 |   |   `-- util.py
 |-- docs
 `-- vitastic-ui
@@ -92,6 +94,7 @@ A high-level structure of the Vitastic repository is as follows:
     |-- src
     |   |-- App.css
     |   |-- App.js
+    |   |-- AppConfig.json
     |   |-- components
     |   |   |-- ConfigView.js
     |   |   |-- UploadView.js
