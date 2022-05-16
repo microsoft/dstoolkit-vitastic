@@ -161,15 +161,12 @@ class UploadView extends React.Component {
                                 this.props.onDirectoryUpload(e.target.files);
                                 // Set directory URL as state for visualizing
                                 this.setState({uploadDirectory: e.target.files});
-                                // this.setState({uploadFile: URL.createObjectURL(e.target.files[0])});
-                                // console.log(e.target.files[0]);
-
                                 // Validation size and format of all images
                                 this.directoryValidation(e.target.files);
                             }}/>
                         }
-                        {this.state.uploadDirectory && <Image
-                            fluid src={URL.createObjectURL(this.state.uploadDirectory[0])} />}
+                        {/*{this.state.uploadDirectory && <Image*/}
+                        {/*    fluid src={URL.createObjectURL(this.state.uploadDirectory[0])} />}*/}
                     </Button>
                 )
             }
@@ -177,9 +174,6 @@ class UploadView extends React.Component {
             return (
                 <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.isClicked[index]}
                         onClick={(state) => {
-                            console.log(this.state.uploadDirectory[index]);
-                            console.log(index);
-
                             // // Set image file as property
                             // fetch(`http://127.0.0.1:3000/img/${imageName}`)
                             //     .then(response => response.blob())
