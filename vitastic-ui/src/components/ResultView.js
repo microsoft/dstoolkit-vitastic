@@ -80,9 +80,11 @@ class ResultView extends React.Component {
 
     render() {
         const onViewChange = this.props.onViewChange;
-        const imageFile = this.props.imageFile;
-        const imageName = this.props.imageFile.name;
 
+        // TODO: change the temporally setting
+        const imageFile = this.props.imageFile? this.props.imageFile : this.props.imageList[0];
+        const imageName = imageFile.name;
+        
         const imageResponseStyles = {
             minWidth: '160px',
             maxWidth: '320px',
