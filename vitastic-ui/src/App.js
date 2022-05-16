@@ -28,12 +28,16 @@ class App extends React.Component {
             imageName: null,
             // Default uploaded image file
             imageFile: null,
+            // Default uploaded image directory
+            imageList: null,
             // Default visualization color set to yellow
             color: 'ffff01',
             // Default confidence threshold
             confidence: configData.defaultConfidence,
             // Default task scope setting
-            scope: configData.modelScope
+            scope: configData.modelScope,
+            // Default disable image batch processing
+            batchEnabled: false
         };
     }
 
@@ -76,6 +80,10 @@ class App extends React.Component {
         this.setState({imageFile: file })
     }
 
+    handleDirectoryUpload = (list) => {
+        this.setState({imageList: list })
+    }
+
     handleConfidenceChange = (conf) => {
         this.setState({confidence: conf })
     }
@@ -88,14 +96,21 @@ class App extends React.Component {
         this.setState({color: color })
     }
 
+    handleBatchEnablement = () => {
+        this.setState({batchEnabled: true})
+    }
+
     renderView() {
         switch (this.state.currentPage) {
             case 'upload':
                 return <UploadView onViewChange={() => this.handleNavigation('result')}
-                                   onImageUpload={this.handleImageUpload} />
+                                   onImageUpload={this.handleImageUpload}
+                                   onDirectoryUpload={this.handleDirectoryUpload}
+                                   batchEnabled={this.state.batchEnabled} />
             case 'result':
                 return <ResultView onViewChange={() => this.handleNavigation('start')}
                                    imageFile={this.state.imageFile}
+                                   imageList={this.state.imageList}
                                    confidence={this.state.confidence}
                                    scope={this.state.scope}
                                    color={this.state.color} />
@@ -103,7 +118,8 @@ class App extends React.Component {
                 return <ConfigView onViewChange={() => this.handleNavigation('upload')}
                                    onConfidenceChange={this.handleConfidenceChange}
                                    onScopeChange={this.handleScopeChange}
-                                   onColorChange={this.handleColorChange} />
+                                   onColorChange={this.handleColorChange}
+                                   onBatchEnablement={this.handleBatchEnablement} />
         }
     }
 
