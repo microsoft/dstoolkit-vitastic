@@ -6,10 +6,12 @@ import {
     Flex,
     VisioIcon,
     Image,
+    Carousel,
     Dialog,
     Table
 } from "@fluentui/react-northstar";
 import configData from "../AppConfig.json";
+import _ from "lodash";
 
 class ResultView extends React.Component {
 
@@ -26,6 +28,27 @@ class ResultView extends React.Component {
         }
 
     }
+
+    imageResponseStyles = {
+        minWidth: '160px',
+        maxWidth: '320px',
+        height: '320px',
+    }
+
+    reportRows = [
+        {
+            items: ['No. detections', '2'],
+        },
+        {
+            items: ['Total percentage bbox', '30%'],
+        },
+        {
+            items: ['Total percentage segmentation', '10%'],
+        },
+        {
+            items: ['Damage evaluation', 'severe'],
+        },
+    ]
 
     handleImageDownload = (imageFile, imageName) => {
         let link = document.createElement('a');
@@ -78,33 +101,11 @@ class ResultView extends React.Component {
         this.handleImageUpload();
     }
 
-    render() {
+    renderSingleImage() {
         const onViewChange = this.props.onViewChange;
 
-        // TODO: change the temporally setting
-        const imageFile = this.props.imageFile? this.props.imageFile : this.props.imageList[0];
+        const imageFile = this.props.imageFile;
         const imageName = imageFile.name;
-        
-        const imageResponseStyles = {
-            minWidth: '160px',
-            maxWidth: '320px',
-            height: '320px',
-        }
-
-        const reportRows = [
-            {
-                items: ['No. detections', '2'],
-            },
-            {
-                items: ['Total percentage bbox', '30%'],
-            },
-            {
-                items: ['Total percentage segmentation', '10%'],
-            },
-            {
-                items: ['Damage evaluation', 'severe'],
-            },
-        ]
 
         return (
             <Form>
@@ -116,7 +117,8 @@ class ResultView extends React.Component {
                     progress={this.state.jobProgress}
                 />
 
-                <Image src={this.state.resultReady ? this.state.imgResponse : `img/blank.png`} styles={imageResponseStyles} />
+                <Image src={this.state.resultReady ? this.state.imgResponse : `img/blank.png`}
+                       styles={this.imageResponseStyles} />
 
                 <Flex>
                     <Button tinted content="Download" disabled={!this.state.resultReady}
@@ -125,7 +127,53 @@ class ResultView extends React.Component {
                     <Dialog trigger={<Button tinted disabled={!this.state.resultReady} content="Open Report" />}
                             confirmButton="Confirm"
                             header="Our detection result:"
-                            content={<Table rows={reportRows} aria-label="Static headless table" />} />
+                            content={<Table rows={this.reportRows} aria-label="Static headless table" />} />
+
+                    <Button primary={this.state.resultReady} loading={!this.state.resultReady}
+                            content={this.state.resultReady ? "Finish" : "Processing"}
+                            onClick={onViewChange} />
+                </Flex>
+            </Form>
+        )
+    }
+
+    renderBatchImages() {
+        const onViewChange = this.props.onViewChange;
+
+        // For now take only the first
+        const imageFile = this.props.imageList[0];
+        const imageName = imageFile.name;
+
+        const carouseItems = () => {
+            return _.map(this.props.imageList, (imageName, index) => {
+                return {
+                    key: imageName,
+                    content: (<Image src={URL.createObjectURL(this.props.imageList[index])}
+                                     fluid alt={'Portrait of Allan'}/>)
+                };
+            })
+        }
+
+        return (
+            <Form>
+                <Attachment
+                    header={imageName}
+                    description={this.state.jobStatus}
+                    actionable
+                    icon={<VisioIcon />}
+                    progress={this.state.jobProgress}
+                />
+                
+                <Carousel items={carouseItems()} styles={this.imageResponseStyles} />
+
+                <Flex>
+                    <Button tinted content="Download" disabled={!this.state.resultReady}
+                            onClick={() => {this.handleImageDownload(imageFile, imageName)}} />
+
+                    <Dialog trigger={<Button tinted disabled={!this.state.resultReady} content="Open Report" />}
+                            confirmButton="Confirm"
+                            header="Our detection result:"
+                            content={<Table rows={this.reportRows} aria-label="Static headless table" />} />
 
                     <Button primary={this.state.resultReady} loading={!this.state.resultReady}
                             content={this.state.resultReady ? "Finish" : "Processing"}
@@ -134,6 +182,11 @@ class ResultView extends React.Component {
             </Form>
 
         )
+    }
+
+    render() {
+        const onViewChange = this.props.onViewChange;
+        return this.props.batchEnabled ? this.renderBatchImages() : this.renderSingleImage();
     }
 
 }

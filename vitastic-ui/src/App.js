@@ -113,7 +113,8 @@ class App extends React.Component {
                                    imageList={this.state.imageList}
                                    confidence={this.state.confidence}
                                    scope={this.state.scope}
-                                   color={this.state.color} />
+                                   color={this.state.color}
+                                   batchEnabled={this.state.batchEnabled} />
             default:
                 return <ConfigView onViewChange={() => this.handleNavigation('upload')}
                                    onConfidenceChange={this.handleConfidenceChange}

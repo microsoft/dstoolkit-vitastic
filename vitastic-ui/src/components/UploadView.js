@@ -9,7 +9,7 @@ import {
     Input,
     Grid, gridBehavior
 } from "@fluentui/react-northstar";
-import _, {clone} from "lodash";
+import _ from "lodash";
 
 const sampleImages = [
     'samples/cfd.jpg',
@@ -165,8 +165,6 @@ class UploadView extends React.Component {
                                 this.directoryValidation(e.target.files);
                             }}/>
                         }
-                        {/*{this.state.uploadDirectory && <Image*/}
-                        {/*    fluid src={URL.createObjectURL(this.state.uploadDirectory[0])} />}*/}
                     </Button>
                 )
             }
@@ -174,14 +172,6 @@ class UploadView extends React.Component {
             return (
                 <Button key={imageName} styles={imageButtonStyles} title={imageName} primary={this.state.isClicked[index]}
                         onClick={(state) => {
-                            // // Set image file as property
-                            // fetch(`http://127.0.0.1:3000/img/${imageName}`)
-                            //     .then(response => response.blob())
-                            //     .then(img => img.arrayBuffer())
-                            //     .then(blob => this.props.onImageUpload(
-                            //         new File([blob], imageName))
-                            //     )
-
                             this.setState({
                                 isClicked: Array(sampleImages.length).fill(false).map((name, i) => i === index),
                                 isSampleClicked: true,
