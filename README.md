@@ -1,9 +1,9 @@
 # Vitastic
 
-Vitastic is a js- & python based solution to quickly build web interface that serves object detection
-workloads. Vitastic combines Microsoft's themable React component library [FluentUI](https://fluentsite.z22.web.core.windows.net/0.60.1) 
-frontend with a Python [Flask](https://flask.palletsprojects.com) backend, allowing you to build your own web interface using the deployed object detection models for
-demo-cases, testing and fine-tuning.
+Vitastic is a Javascript x Python based solution to quickly build web interface that serves object detection
+workloads. By leveraging Microsoft's themable React component library [FluentUI](https://fluentsite.z22.web.core.windows.net/0.60.1) 
+powered by Python [Flask](https://flask.palletsprojects.com) backend, Vitastic allows you to build your own UI to demonstrate
+pre-trained image `classification`, `object detection`, or `semantic segmentation` models.
 
 
 ## Prerequisites
@@ -11,7 +11,7 @@ In order to successfully set up your solution you will need to have provisioned 
 
 * `Python`: A recent `Python 3.8` interpreter to run the Flask backend on.
 * `Yarn`: A package and project manager for Node.js applications.
-* `Object detection model`: Deployed in Azure ML as a RESTful API.
+* `Object detection model`: Deployed either in `Azure Custom Vision` or `Azure ML` as a RESTful API.
 See [dstoolkit-objectdetection-accelerator](https://github.com/microsoft/dstoolkit-objectdetection-tensorflow-azureml) 
 to see how to build an end-to-end training and deployment pipelines in Azure ML.
 
