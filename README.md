@@ -24,6 +24,7 @@ source code reside in the `Vitastic` folder.
 It is highly recommended create a virtual environment using e.g. package manager `conda` before the further package installing:
 ```
 conda create -n Vitastic python=3.8
+conda activate Vitastic
 ```
 Now you can install all python package dependencies and get the backend running by:
 ```
