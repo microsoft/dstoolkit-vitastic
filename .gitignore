@@ -6,9 +6,6 @@ __pycache__/
 # React packages
 node_modules/
 
-# Temporal file placeholder
-tmp/
-
 # C extensions
 *.so
 
