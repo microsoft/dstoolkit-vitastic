@@ -91,7 +91,6 @@ class ConfigView extends React.Component {
         const onConfidenceChange = this.props.onConfidenceChange;
         const onScopeChange = this.props.onScopeChange;
         const onColorChange = this.props.onColorChange;
-        const onBatchEnablement = this.props.onBatchEnablement;
 
         return (
             <Form>
@@ -121,13 +120,6 @@ class ConfigView extends React.Component {
                     />
                     <Label color='brand' styles={{margin:'17px'}} content={this.state.confidence}/>
                 </Flex>
-
-                <FormCheckbox label="Enable batch processing" toggle
-                              onClick={() => {
-                                  onBatchEnablement();
-                              }}
-                />
-
                 <FormCheckbox label="I would like to generate a detection report" toggle defaultChecked />
                 <FormButton content="Continue" primary onClick={onViewChange} />
             </Form>
