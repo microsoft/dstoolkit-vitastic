@@ -1,13 +1,13 @@
 import React from "react";
 import {
-    Form,
-    Button,
     Attachment,
-    Flex,
-    VisioIcon,
-    Image,
+    Button,
     Dialog,
-    Table
+    Flex,
+    Form,
+    Image,
+    Table,
+    VisioIcon
 } from "@fluentui/react-northstar";
 import configData from "../AppConfig.json";
 
@@ -51,12 +51,15 @@ class ResultView extends React.Component {
         await new Promise(r => setTimeout(r, 200)); // 0.2s
         this.setState({jobProgress: 30, jobStatus: 'Detecting'});
 
-        // for (var value of data.values()) {
-        //     console.log((value));
-        // }
-
         fetch(`http://127.0.0.1:5000/upload`, requestOptions)
-            .then(response => response.blob()).then(img =>
+            .then(response => {
+                // Extract detection report as state
+                this.setState({
+                    jobReport: JSON.parse(response.headers.get("Vitastic-Report"))
+                })
+                // Extract detected image as blob
+                return response.blob()
+            }).then(img =>
             this.setState({
                 imgResponse: URL.createObjectURL(img),
                 jobProgress: 80,
@@ -71,11 +74,47 @@ class ResultView extends React.Component {
                 resultReady: true
             })
         );
-
     }
 
     componentDidMount() {
         this.handleImageUpload();
+    }
+
+    buildReport(repObj) {
+        console.log(repObj);
+        if (this.props.scope === 'semantic segmentation') {
+            return [
+            {
+                items: ['No. detections', repObj.nbox],
+                key: 'No. detections'
+            },
+            {
+                items: ['Total percentage bbox', repObj.bbox_percentage],
+                key: 'Total percentage bbox'
+            },
+            {
+                items: ['Total percentage segmentation', repObj.seg_percentage],
+                key: 'Total percentage segmentation'
+            },
+            {
+                items: ['Damage evaluation', repObj.eval],
+                key: 'Damage evaluation'
+            }]
+        } else {
+            return [
+            {
+                items: ['No. detections', repObj.nbox],
+                key: 'No. detections'
+            },
+            {
+                items: ['Total percentage bbox', repObj.bbox_percentage],
+                key: 'Total percentage bbox'
+            },
+            {
+                items: ['Damage evaluation', repObj.eval],
+                key: 'Damage evaluation'
+            }]
+        }
     }
 
     render() {
@@ -88,21 +127,6 @@ class ResultView extends React.Component {
             maxWidth: '320px',
             height: '320px',
         }
-
-        const reportRows = [
-            {
-                items: ['No. detections', '2'],
-            },
-            {
-                items: ['Total percentage bbox', '30%'],
-            },
-            {
-                items: ['Total percentage segmentation', '10%'],
-            },
-            {
-                items: ['Damage evaluation', 'severe'],
-            },
-        ]
 
         return (
             <Form>
@@ -123,7 +147,10 @@ class ResultView extends React.Component {
                     <Dialog trigger={<Button tinted disabled={!this.state.resultReady} content="Open Report" />}
                             confirmButton="Confirm"
                             header="Our detection result:"
-                            content={<Table rows={reportRows} aria-label="Static headless table" />} />
+                            content={<Table aria-label="Static headless table" rows={
+                                this.state.resultReady ? this.buildReport(this.state.jobReport) : null
+                            }/>}
+                    />
 
                     <Button primary={this.state.resultReady} loading={!this.state.resultReady}
                             content={this.state.resultReady ? "Finish" : "Processing"}

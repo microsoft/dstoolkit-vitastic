@@ -31,6 +31,7 @@ def handle_segmentation_job(job):
         report['eval'] = 'medium'
     else:
         report['eval'] = 'severe'
+    report['bbox_percentage'] = "{:.2%}".format(report['bbox_percentage'])
     report['seg_percentage'] = "{:.2%}".format(report['seg_percentage'])
     return report
 
