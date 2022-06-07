@@ -1,3 +1,4 @@
+import json
 import os
 from munch import DefaultMunch
 from flask import Flask, request, jsonify, make_response, send_file
@@ -56,6 +57,7 @@ def handle_detection_job(job):
 
 
 def handle_classification_job(job):
+    # TODO: finish implementation
     pass
 
 
@@ -79,35 +81,32 @@ def upload_image():
     # Create job based on received request
     job = catch_request(req=request)
 
-    # TODO: on the fly?
     # Save submitted image locally
-    img_in = os.path.join(app.config['UPLOAD_FOLDER'], job.imgname)
     img_out = os.path.join(app.config['DETECTED_FOLDER'], job.imgname)
     job.img.save(job.img_in)
 
     # Detect and visualize damages on input image
-    if os.path.isfile(img_in):
-        # segmentation job
-        if job.scope == "semantic segmentation":
-            handle_segmentation_job(job=job)
-
-        # detection job
-        if job.scope == "object detection":
-            handle_detection_job(job=job)
-
-        # classification job
-        if job.scope == "classification":
-            pass
-
+    # segmentation job
+    if job.scope == "semantic segmentation":
+        report = handle_segmentation_job(job=job)
+    # detection job
+    elif job.scope == "object detection":
+        report = handle_detection_job(job=job)
+    # classification job
     else:
-        pass
+        raise NotImplementedError()
 
     if os.path.isfile(img_out):
         print('I am finished!')
-        # return jsonify(success=True, img_response=img_out, report_response=report)
-        return send_file(img_out)
+        response = send_file(img_out)
+        # Exposing customised header to requests from a different origin
+        # See https://stackoverflow.com/a/44816592/2047472
+        response.headers.add('Access-Control-Expose-Headers', 'Vitastic-Report')
+        response.headers.add_header("Vitastic-Report",  json.dumps(report))
+
+        return response
     else:
-        pass
+        raise Exception('Detection process not finished')
 
 
 if __name__ == "__main__":
