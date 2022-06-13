@@ -68,7 +68,8 @@ Below is a detailed description of each configuration possibilities:
 * `defaultConfidence`: Model confidence value, by default set to 0.5.
 * `modelService`: Model backbone service, currently supports Azure machine learning `aml` and Azure custom vision `cv`.
 * `modelScope`: Backbone model functionality, currently supports classification, object detection or semantic segmentation
-* `sampleImagesDir`: Path of directory consisting of sample images to be displayed. This should be within the `vitastic-ui/public/img` directory.
+* `sampleImages`: List of image names to be presented as samples, all images should reside in the 
+`vitastic-ui/public/img/samples` directory. It is optional, and ideally should be of `maximal 7 images` to for the sake of design.
 
 <table><tr>
 <td> <img src="./docs/light_theme.jpg" alt="Drawing" /> </td>
