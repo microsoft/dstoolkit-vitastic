@@ -24,9 +24,9 @@ class ResultView extends React.Component {
             // Default job status
             jobStatus: 'Initializing...',
             // Default job progress in range of 0-100
-            jobProgress: 5,
+            jobProgress: 0,
             currentImage: null,
-            imgResponse: [],
+            singleImgResponse: null,
             carouseItems: []
         }
 
@@ -75,22 +75,68 @@ class ResultView extends React.Component {
         };
 
         fetch(`http://127.0.0.1:5000/upload`, requestOptions)
-            .then(response => response.blob()).then(img =>
+            .then(response => {
+                // Extract detection report as state
+                this.setState({
+                    jobReport: JSON.parse(response.headers.get("Vitastic-Report"))
+                })
+                // Extract detected image as blob
+                return response.blob()
+            }).then(img =>
             this.setState({
-                imgResponse: this.state.imgResponse.concat(URL.createObjectURL(img)),
+                // imgResponse: this.state.imgResponse.concat(URL.createObjectURL(img)),
+                singleImgResponse: URL.createObjectURL(img),
                 jobStatus: URL.createObjectURL(img),
                 carouseItems: this.state.carouseItems.concat([{
                     key: URL.createObjectURL(img),
                     content:(<Image src={URL.createObjectURL(img)} fluid />)
                 }]),
             })
+        // ).then(async () =>
+        //     await new Promise(r => setTimeout(r, 300)) // 0.3s
         ).then(() =>
             this.setState({
                 jobProgress: this.props.batchEnabled ? this.state.jobProgress + (100 / this.props.imageList.length) : 100,
                 resultReady: true
             })
         );
+    }
 
+    buildReport(repObj) {
+        console.log(repObj);
+        if (this.props.scope === 'semantic segmentation') {
+            return [
+            {
+                items: ['No. detections', repObj.nbox],
+                key: 'No. detections'
+            },
+            {
+                items: ['Total percentage bbox', repObj.bbox_percentage],
+                key: 'Total percentage bbox'
+            },
+            {
+                items: ['Total percentage segmentation', repObj.seg_percentage],
+                key: 'Total percentage segmentation'
+            },
+            {
+                items: ['Damage evaluation', repObj.eval],
+                key: 'Damage evaluation'
+            }]
+        } else {
+            return [
+            {
+                items: ['No. detections', repObj.nbox],
+                key: 'No. detections'
+            },
+            {
+                items: ['Total percentage bbox', repObj.bbox_percentage],
+                key: 'Total percentage bbox'
+            },
+            {
+                items: ['Damage evaluation', repObj.eval],
+                key: 'Damage evaluation'
+            }]
+        }
     }
 
     componentDidMount() {
@@ -118,7 +164,7 @@ class ResultView extends React.Component {
                     progress={this.state.jobProgress}
                 />
 
-                <Image src={this.state.resultReady ? this.state.imgResponse[0] : `img/blank.png`}
+                <Image src={this.state.resultReady ? this.state.singleImgResponse : `img/blank.png`}
                        styles={this.imageResponseStyles} />
 
                 <Flex>
@@ -128,7 +174,10 @@ class ResultView extends React.Component {
                     <Dialog trigger={<Button tinted disabled={!this.state.resultReady} content="Open Report" />}
                             confirmButton="Confirm"
                             header="Our detection result:"
-                            content={<Table rows={this.reportRows} aria-label="Static headless table" />} />
+                            content={<Table aria-label="Static headless table" rows={
+                                this.state.resultReady ? this.buildReport(this.state.jobReport) : null
+                            }/>}
+                    />
 
                     <Button primary={this.state.resultReady} loading={!this.state.resultReady}
                             content={this.state.resultReady ? "Finish" : "Processing"}
