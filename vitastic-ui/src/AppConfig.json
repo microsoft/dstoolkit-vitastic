@@ -4,5 +4,13 @@
   "defaultConfidence": "0.3",
   "modelService": "aml",
   "modelScope": "semantic segmentation",
-  "sampleImagesDir": "samples/"
+  "sampleImages": [
+      "fork1.jpg",
+      "fork2.jpg",
+      "fork3.jpg",
+      "fork4.jpg",
+      "fork5.jpg",
+      "fork6.jpg",
+      "fork7.jpg"
+    ]
 }

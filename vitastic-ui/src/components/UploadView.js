@@ -10,17 +10,10 @@ import {
     Grid, gridBehavior
 } from "@fluentui/react-northstar";
 import _, {clone} from "lodash";
+import configData from "../AppConfig.json";
 
-const sampleImages = [
-    'samples/cfd.jpg',
-    'samples/deepcrack.jpg',
-    'samples/forest.jpg',
-    'samples/heavycrack.jpg',
-    'samples/rissbilder.jpg',
-    'samples/volker.jpg',
-    'samples/volkerds.jpg',
-    'samples/volkerback.jpg'
-]
+
+const sampleImages = [""].concat(configData.sampleImages.map(img => "samples/" + img))
 
 const imageButtonStyles = {
     minWidth: '90px',
