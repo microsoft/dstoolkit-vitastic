@@ -24,7 +24,7 @@ class ResultView extends React.Component {
             // Default job status
             jobStatus: 'Initializing...',
             // Default job progress in range of 0-100
-            jobProgress: 0,
+            jobProgress: 5,
             currentImage: null,
             singleImgResponse: null,
             carouseItems: []
@@ -84,16 +84,14 @@ class ResultView extends React.Component {
                 return response.blob()
             }).then(img =>
             this.setState({
-                // imgResponse: this.state.imgResponse.concat(URL.createObjectURL(img)),
                 singleImgResponse: URL.createObjectURL(img),
-                jobStatus: URL.createObjectURL(img),
+                // jobStatus: URL.createObjectURL(img),
+                jobStatus: this.state.jobReport.img_name,
                 carouseItems: this.state.carouseItems.concat([{
                     key: URL.createObjectURL(img),
                     content:(<Image src={URL.createObjectURL(img)} fluid />)
                 }]),
             })
-        // ).then(async () =>
-        //     await new Promise(r => setTimeout(r, 300)) // 0.3s
         ).then(() =>
             this.setState({
                 jobProgress: this.props.batchEnabled ? this.state.jobProgress + (100 / this.props.imageList.length) : 100,
@@ -103,7 +101,6 @@ class ResultView extends React.Component {
     }
 
     buildReport(repObj) {
-        console.log(repObj);
         if (this.props.scope === 'semantic segmentation') {
             return [
             {
@@ -141,9 +138,9 @@ class ResultView extends React.Component {
 
     componentDidMount() {
         if (this.props.batchEnabled) {
-           for (let i = 0; i < this.props.imageList.length; i++) {
-               this.handleImageUpload(this.props.imageList[i]);
-           }
+            for (let i = 0; i < this.props.imageList.length; i++) {
+                this.handleImageUpload(this.props.imageList[i]);
+            }
         } else {
             this.handleImageUpload(this.props.imageFile);
         }
@@ -198,14 +195,16 @@ class ResultView extends React.Component {
         return (
             <Form>
                 <Attachment
-                    header={'Detecting'}
+                    // header={this.resultReady ? 'Finished' : 'Detecting'}
                     description={this.state.jobStatus}
                     actionable
                     icon={<VisioIcon />}
                     progress={this.state.jobProgress}
                 />
 
-                <Carousel items={this.state.carouseItems} styles={this.imageResponseStyles} />
+                <Carousel items={this.state.carouseItems} styles={this.imageResponseStyles}
+                          getItemPositionText={(index, size) => `${index + 1} of ${size}`}
+                />
 
                 <Flex>
                     <Button tinted content="Download" disabled={!this.state.resultReady}

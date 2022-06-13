@@ -33,6 +33,7 @@ def handle_segmentation_job(job):
         report['eval'] = 'severe'
     report['bbox_percentage'] = "{:.2%}".format(report['bbox_percentage'])
     report['seg_percentage'] = "{:.2%}".format(report['seg_percentage'])
+    report['img_name'] = os.path.split(job.img_in)[-1]  # Get filename
     return report
 
 
@@ -54,6 +55,7 @@ def handle_detection_job(job):
     else:
         report['eval'] = 'severe'
     report['bbox_percentage'] = "{:.2%}".format(report['bbox_percentage'])
+    report['img_name'] = os.path.split(job.img_in)[-1]  # Get filename
     return report
 
 
@@ -104,6 +106,7 @@ def upload_image():
         # See https://stackoverflow.com/a/44816592/2047472
         response.headers.add('Access-Control-Expose-Headers', 'Vitastic-Report')
         response.headers.add_header("Vitastic-Report",  json.dumps(report))
+        # response.headers.add_header("Image-Name",  json.dumps(job.imgname))
 
         return response
     else:
