@@ -9,8 +9,8 @@ node_modules/
 # Temporally directories
 tmp/
 
-# Sample images
-samples/
+## Sample images
+#samples/
 
 # C extensions
 *.so
