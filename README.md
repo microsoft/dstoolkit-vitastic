@@ -1,3 +1,5 @@
+![banner](./docs/banner.jpg)
+
 # Vitastic
 
 Vitastic is a Javascript x Python based solution to quickly build web interface that serves object detection
