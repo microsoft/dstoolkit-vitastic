@@ -1,9 +1,9 @@
 {
   "title": "Vitastic Detector",
   "darkTheme": false,
-  "defaultConfidence": "0.5",
-  "modelService": "cv",
-  "modelScope": "object detection",
+  "defaultConfidence": "0.6",
+  "modelService": "aml",
+  "modelScope": "semantic segmentation",
   "sampleImages": [
       "fork1.jpg",
       "fork2.jpg",

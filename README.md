@@ -1,4 +1,4 @@
-![banner](./docs/banner.jpg)
+![banner](docs/.fig/banner.jpg)
 
 # Vitastic
 
@@ -7,6 +7,10 @@ workloads. By leveraging Microsoft's themable React component library [FluentUI]
 powered by Python [Flask](https://flask.palletsprojects.com) backend, Vitastic allows you to build your own UI to demonstrate
 pre-trained image `classification`, `object detection`, or `semantic segmentation` models.
 
+<table><tr>
+<td> <img src="docs/.fig/config_view.jpg" alt="Drawing" /> </td>
+<td> <img src="docs/.fig/upload_view.jpg" alt="Drawing" /> </td>
+</tr></table>
 
 ## Prerequisites
 In order to successfully set up your solution you will need to have provisioned the following:
@@ -74,8 +78,8 @@ Below is a detailed description of each configuration possibilities:
 `vitastic-ui/public/img/samples` directory. It is optional, and ideally should be of `maximal 7 images` to for the sake of design.
 
 <table><tr>
-<td> <img src="./docs/light_theme.jpg" alt="Drawing" /> </td>
-<td> <img src="./docs/dark_theme.jpg" alt="Drawing" /> </td>
+<td> <img src="docs/.fig/light_theme.jpg" alt="Drawing" /> </td>
+<td> <img src="docs/.fig/dark_theme.jpg" alt="Drawing" /> </td>
 </tr></table>
 
 ## Repository Details 
@@ -110,7 +114,7 @@ A high-level structure of the Vitastic repository is as follows:
 
 The following architecture illustrates how the code is organised into an end to end workflow:
 
-![drawing](./docs/architecture.jpg)
+![drawing](docs/.fig/architecture.jpg)
 
 
 
