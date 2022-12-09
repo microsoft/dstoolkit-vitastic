@@ -1,0 +1,29 @@
+Endpoint submitting a job to an Azure custom vision service with specific detection scope
+---
+parameters:
+  - name: image
+    in: formData
+    type: file
+    required: true
+  - name: scope
+    in: query
+    type: string
+    enum: ['classification', 'detection']
+    required: true
+    default: classification
+  - name: threshold
+    in: query
+    type: float
+    minimum: 0.0
+    maximum: 1.0
+    default: 0.5
+definitions:
+  cv:
+    type: object
+    properties:
+      endpoint:
+        type: string
+    reference: Azure custom vision service
+responses:
+  200:
+    description: image file with detection result

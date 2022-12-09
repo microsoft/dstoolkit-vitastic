@@ -1,0 +1,5 @@
+Endpoint returning a list of supported Azure detection services
+---
+responses:
+  200:
+    description: A list of supported Azure services

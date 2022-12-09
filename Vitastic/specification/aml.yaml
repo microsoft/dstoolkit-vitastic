@@ -1,0 +1,29 @@
+Endpoint submitting a job to an Azure machine learning service with specific detection scope
+---
+parameters:
+  - name: image
+    in: formData
+    type: file
+    required: true
+  - name: scope
+    in: query
+    type: string
+    enum: ['classification', 'detection', 'segmentation']
+    required: true
+    default: classification
+  - name: threshold
+    in: query
+    type: float
+    minimum: 0.0
+    maximum: 1.0
+    default: 0.5
+definitions:
+  aml:
+    type: object
+    properties:
+      endpoint:
+        type: string
+    reference: Azure machine learning service
+responses:
+  200:
+    description: base64 image encoding with detection results
